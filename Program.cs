@@ -2,11 +2,46 @@
 using System;
 using System.IO;
 
-static void main(string[] args)
+Console.WriteLine("Hello world. I was wake up.");
+string answer;
+answer = Question("What do you want to do?");
+while(answer == "help")
 {
-
+    Console.WriteLine("createKey is creating keyFile for Cryptography.");
+    Console.WriteLine("encrypt is encrypting the date file you want with created keyFile.");
+    Console.WriteLine("sort is sorting the encrypted file with keyFile.");
 }
-void sort()
+if(answer == "createKey")
+{
+    createKey();
+}
+else
+{
+    if(answer == "encrypt")
+    {
+        encrypt();
+    }
+    else
+    {
+        if(answer == "sort")
+        {
+            sort();
+        }
+    }
+}
+
+static string Question(string text)
+{
+    Console.WriteLine(text);
+    string answer = Console.ReadLine();
+    while(answer == null)
+    {
+        Console.WriteLine("Plese type anything");
+    }
+    return answer;
+}
+
+static void sort()
 {
     //復号プログラム
 
@@ -46,27 +81,14 @@ void sort()
     writer.Close();
 }
 
-void testCreate()
-{
-    int a = 0;
-    int[] order;
-    while (a < 100)
-    {
-        StreamWriter streamWriter = new StreamWriter(@"D:\a.txt", false, Encoding.GetEncoding("UTF-16"));
-        streamWriter.WriteLine(a);
-        Console.WriteLine(a + "を書き込んでいます。");
-        a++;
-    }
-}
-
-void createOrder()
+static void createKey()
 {
     //順序ファイルの生成
     int random;
-    int a = 0;
+    int count = 0;
     int[] order = new int[100];
     //百個数字が埋められるまで繰り返す。
-    while (a >= 100)
+    while (count >= 100)
     {
         //Int32と同じサイズのバイト配列にランダムな値を設定する
         //byte[] bs = new byte[sizeof(int)];
@@ -78,26 +100,32 @@ void createOrder()
 
         //Int32に変換する
         random = System.BitConverter.ToInt32(bs, 0);
-        //現在時刻を取得
-        //this.dateTime = DateTime.Now;
-        //下二桁を抽出
+
+        //下二桁の抽出
         random = random % 100;
+
         //書き出し
-        Console.WriteLine(random);
+        //Console.WriteLine(random);
 
-        //生成した変数を"order"に代入
-        order[a] = random;
+        //今までにない数かどうかを評価
+        if (Array.IndexOf(order, random) >= 0)
+        {
+            //生成した変数を"order"に代入
+            order[count] = random;
+            count++;
+        }
+    }
 
-        //if (Array.IndexOf(order, random) >= 0)
-        //{
-        //生成した変数を"order"に代入
-        //order[a] = random;
-        //a++;
-
+    //keyFileに書き出し
+    string whereKeyFile = Question("Where will you want to create the keyFile?");
+    StreamWriter streamWriter = new StreamWriter(whereKeyFile, true);
+    for(count= 0; count < order.Length; count++)
+    {
+        streamWriter.WriteLine(order[count]);
     }
 }
 
-void encrypt()
+static void encrypt()
 {
     //変数宣言
     int[] order = new int[100];
@@ -117,6 +145,7 @@ void encrypt()
     }
     //配列の順に検索
     a = 0;
+    StreamWriter writer = new StreamWriter("encrypted.txt", true);
     while (a < 100)
     {
         //参照すべき行を検索
@@ -126,7 +155,7 @@ void encrypt()
         written = File.ReadLines(@"D:\after.txt").Skip(b).First();
 
         //"encrypted"に書き込み
-        StreamWriter writer = new StreamWriter("encrypted.txt", true);
+        
         writer.WriteLine(written);
 
     }
