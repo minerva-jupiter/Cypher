@@ -134,14 +134,24 @@ static void createKey()
 
 static void encrypt()
 {
+    //暗号化
+
     //変数宣言
     int[] order = new int[100];
     string written;
     int a = 0;
     int b = 0;
 
+    //質問タイム
+    string whereDateFile;
+    whereDateFile = Question("Where is the file you want to encrypt?");
+    string whereKeyFile;
+    whereKeyFile = Question("Where is keyFile?");
+    string whereEncryptedFile;
+    whereEncryptedFile = Question("Where will you create encrypted file?");
+
     //順序ファイルの読み込み
-    StreamReader sr = new StreamReader(path: "D:\a.txt", encoding: Encoding.GetEncoding("UTF-8"));
+    StreamReader sr = new StreamReader(whereKeyFile);
     Console.WriteLine("読み込み終わり");
 
     //配列に順序を書き込み
@@ -152,14 +162,14 @@ static void encrypt()
     }
     //配列の順に検索
     a = 0;
-    StreamWriter writer = new StreamWriter("encrypted.txt", true);
+    StreamWriter writer = new StreamWriter(whereEncryptedFile);
     while (a < 100)
     {
         //参照すべき行を検索
         b = Array.IndexOf(order, a);
 
         //参照して"written"に代入
-        written = File.ReadLines(@"D:\after.txt").Skip(b).First();
+        written = File.ReadLines(whereDateFile).Skip(b).First();
 
         //"encrypted"に書き込み
         
