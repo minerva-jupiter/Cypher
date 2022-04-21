@@ -51,10 +51,14 @@ static void sort()
     int a = 0;
     int b = 0;
 
-    string whereEncrypted
+    //質問ターイム
+    string whereEncrypted;
+    whereEncrypted = Question("Where is encrypted file?");
+    string whereKeyFile;
+    whereKeyFile = Question("Where is KeyFile?");
     //順序ファイルの読み込み
-    StreamReader sr = new StreamReader(path: "D:\a.txt", encoding: Encoding.GetEncoding("UTF-8"));
-    Console.WriteLine("読み込み終わり");
+    StreamReader sr = new StreamReader(whereEncrypted, encoding: Encoding.GetEncoding("UTF-8"));
+    Console.WriteLine("Road was finished.");
 
     //配列に順序を書き込み
     while (a < 100)
