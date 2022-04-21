@@ -56,9 +56,11 @@ static void sort()
     whereEncrypted = Question("Where is encrypted file?");
     string whereKeyFile;
     whereKeyFile = Question("Where is KeyFile?");
+    string whereSortedFile;
+    whereSortedFile = Question("Where will you create sorted file?");
+
     //順序ファイルの読み込み
     StreamReader sr = new StreamReader(whereEncrypted, encoding: Encoding.GetEncoding("UTF-8"));
-    Console.WriteLine("Road was finished.");
 
     //配列に順序を書き込み
     while (a < 100)
