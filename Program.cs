@@ -51,6 +51,7 @@ static void sort()
     int a = 0;
     int b = 0;
 
+    string whereEncrypted
     //順序ファイルの読み込み
     StreamReader sr = new StreamReader(path: "D:\a.txt", encoding: Encoding.GetEncoding("UTF-8"));
     Console.WriteLine("読み込み終わり");
