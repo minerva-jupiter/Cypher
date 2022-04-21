@@ -5,7 +5,7 @@ using System.IO;
 Console.WriteLine("Hello world. I woke up.");
 string answer;
 answer = Question("What do you want to do?");
-while(answer == "help")
+while(answer != "help")
 {
     Console.WriteLine("createKey is creating keyFile for Cryptography.");
     Console.WriteLine("encrypt is encrypting the date file you want with created keyFile.");
