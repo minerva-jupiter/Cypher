@@ -8,10 +8,10 @@ I hope it will be one of the counter-quantum computer cryptography.
 
 command-explanation
 
-・createKey is creating keyFile for Cryptography.
+・"createKey" wil be creating keyFile for Cryptography.
 
-・encrypt is encrypting the date file you want with created keyFile.
+・"encrypt" will be encrypting the date file you want with created keyFile.
 
-・sort is sorting the encrypted file with keyFile.
+・"sort" will be sorting the encrypted file with keyFile.
 
 Open file and try more! 
