@@ -71,17 +71,16 @@ static void sort()
 
     //配列の順に検索
     a = 0;
-    StreamWriter writer = new StreamWriter("after.txt", true);
+    StreamWriter writer = new StreamWriter(whereSortedFile, true);
     while (a < 100)
     {
         //参照すべき行を検索
         b = Array.IndexOf(order, a);
 
         //参照して"written"に代入
-        written = File.ReadLines(@"D:\date.txt").Skip(b).First();
+        written = File.ReadLines(whereEncrypted).Skip(b).First();
 
-        //"after"に書き込み
-        Encoding sjisEnc = Encoding.GetEncoding("UTF-8");
+        //sortedFileに書き込み
         writer.WriteLine(written);
 
     }
@@ -130,6 +129,7 @@ static void createKey()
     {
         streamWriter.WriteLine(order[count]);
     }
+    streamWriter.Close();
 }
 
 static void encrypt()
