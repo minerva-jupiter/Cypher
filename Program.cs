@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-Console.WriteLine("Hello world. I was wake up.");
+Console.WriteLine("Hello world. I woke up.");
 string answer;
 answer = Question("What do you want to do?");
 while(answer == "help")
