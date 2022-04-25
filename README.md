@@ -14,4 +14,20 @@ We hope it will be one of the counter-quantum computer cryptography.
 
 Open file and try more! 
 
+Thank you for reading:)
 
+Are you still reading this?
+
+OK.
+
+I have a candy for you.
+
+
+
+
+
+
+
+
+
+BRUH/
