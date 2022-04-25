@@ -2,7 +2,11 @@ Cypher
 
 This is a new cryptographic technique we propose.
 
-This is based on the principle of duplicate combination.
+This is based on the principle of combination.
+
+We'll improve this program more.
+
+so pls like and subscribe us!
 
 We hope it will be one of the counter-quantum computer cryptography.
 
@@ -15,32 +19,3 @@ We hope it will be one of the counter-quantum computer cryptography.
 Open file and try more! 
 
 Thank you for reading:)
-
-Are you still reading this?
-
-OK.
-
-I have a candy for you.
-
-BRUH/
-
-The end...
- 
-  
-   
-     
-      
-       
-        
-         
-           
-           
-           
-           
-           
-           
-           
-            
-            
-hello how are you?
-I'm good
