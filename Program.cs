@@ -82,7 +82,8 @@ static void sort()
 
         //sortedFileに書き込み
         writer.WriteLine(written);
-
+        
+        a++;
     }
     writer.Close();
 }
@@ -139,6 +140,7 @@ static void encrypt()
     //変数宣言
     int[] order = new int[100];
     string written;
+    string[] date = new string[100]
     int a = 0;
     int b = 0;
 
@@ -160,21 +162,32 @@ static void encrypt()
         order[a] = int.Parse(sr.ReadLine());
         a++;
     }
+    //データ配列をファイルに書き込む
+    
+    //ファイルを百分割
+    a = 0;
+    while (a < 100)
+    {
+        //百分割したファイルのそれぞれをdate配列に代入
+        date[a] = ;
+    }
     //配列の順に検索
     a = 0;
     StreamWriter writer = new StreamWriter(whereEncryptedFile);
     while (a < 100)
     {
         //参照すべき行を検索
-        b = Array.IndexOf(order, a);
+        b = order[a];
 
         //参照して"written"に代入
-        written = File.ReadLines(whereDateFile).Skip(b).First();
+        written = File.ReadLines(whereDateFile).Skip(a).First();
 
         //"encrypted"に書き込み
         
         writer.WriteLine(written);
 
+        a++;
+        
     }
     writer.Close();
 }
