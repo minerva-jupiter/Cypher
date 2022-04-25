@@ -140,7 +140,7 @@ static void encrypt()
     //変数宣言
     int[] order = new int[100];
     string written;
-    string[] date = new string[100]
+    string[] date = new string[100];
     int a = 0;
     int b = 0;
 
@@ -163,13 +163,27 @@ static void encrypt()
         a++;
     }
     //データ配列をファイルに書き込む
-    
+
     //ファイルを百分割
+
+    //ファイルを開く
+    System.IO.FileStream fileStream = new System.IO.FileStream(
+        whereDateFile,
+        System.IO.FileMode.Open,
+        System.IO.FileAccess.Read);
+    //ファイルを読み込むバイト型配列を作成する
+    byte[] bs = new byte[fileStream.Length];
+    //ファイルの内容をすべて読み込む
+    fileStream.Read(bs, 0, bs.Length);
+    //閉じる
+    fileStream.Close();
+
+
     a = 0;
     while (a < 100)
     {
         //百分割したファイルのそれぞれをdate配列に代入
-        date[a] = ;
+        date[a] = System.Text.Encoding.ASCII.GetString(bs);
     }
     //配列の順に検索
     a = 0;
@@ -180,7 +194,7 @@ static void encrypt()
         b = order[a];
 
         //参照して"written"に代入
-        written = File.ReadLines(whereDateFile).Skip(a).First();
+        written = File.ReadLines(date[a]).Skip(a).First();
 
         //"encrypted"に書き込み
         
