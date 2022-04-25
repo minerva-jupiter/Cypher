@@ -177,7 +177,7 @@ static void encrypt()
     }
     //データ配列をファイルに書き込む
 
-    //ファイルを百分割
+    //ファイルをバイトごとに分割
 
     //ファイルを開く
     System.IO.FileStream fileStream = new System.IO.FileStream(
@@ -201,7 +201,7 @@ static void encrypt()
     //配列の順に検索
     a = 0;
     StreamWriter writer = new StreamWriter(whereEncryptedFile);
-    while (a < 100)
+    while (a < date.Length)
     {
         //参照すべき行を検索
         b = order[a];
