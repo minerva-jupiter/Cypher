@@ -51,7 +51,7 @@ static void sort()
     int a = 0;
     int b = 0;
 
-    //質問ターイム
+    //質問
     string whereEncrypted;
     whereEncrypted = Question("Where is encrypted file?");
     string whereKeyFile;
@@ -142,7 +142,7 @@ static void encrypt()
     int a = 0;
     int b = 0;
 
-    //質問タイム
+    //質問
     string whereDateFile;
     whereDateFile = Question("Where is the file you want to encrypt?");
     string whereKeyFile;
