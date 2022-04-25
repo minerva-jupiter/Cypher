@@ -157,6 +157,8 @@ static void encrypt()
     int b = 0;
     int c = 0;
     int d = 0;
+    string e;
+    int f = 0;
 
     //質問
     string whereDateFile;
@@ -199,14 +201,21 @@ static void encrypt()
     if (bs.Length % 100 == 0)
     {
         b = bs.Length / 100;
+        d = b;
+        c = 0;
         //ファイルを百分割してdata配列に代入
         while (a < 100)
         {
-            while (c = c+b)
+            e = BitConverter.ToString(BitConverter.GetBytes(bs[c]));
+            c++;
+            while (d >= c + b)
             {
-                date[a] = BitConverter.ToString(BitConverter.GetBytes(bs[c]));
+                e += BitConverter.ToString(BitConverter.GetBytes(bs[c]));
                 c++;
             }
+            d = d + b;
+
+            date[a] = e;
             a++;
         }
     }
@@ -215,13 +224,27 @@ static void encrypt()
         a = 0;
         b = bs.Length / 99;
         d = bs.Length % 99;
+        f = b;
         while (a < 99)
         {
-            date[a] = BitConverter.ToString(BitConverter.GetBytes(bs[c]));
-            c = c + b;
+            e = BitConverter.ToString(BitConverter.GetBytes(bs[c]));
+            c++;
+            while (f > c + b)
+            {
+                e += BitConverter.ToString(BitConverter.GetBytes(bs[c]));
+                c++;
+            }
+            f = f + b;
+
             a++;
         }
-        date[100] = BitConverter.ToString(BitConverter.GetBytes(bs[b * 99]));
+        //100個めに余りを入れる。
+        e = BitConverter.ToString(BitConverter.GetBytes(bs[c]));
+        while (d >= c + b)
+        {
+            e += BitConverter.ToString(BitConverter.GetBytes(bs[c]));
+        }
+        date[100] = e;
     }
 
     a = 0;
