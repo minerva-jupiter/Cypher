@@ -2,33 +2,46 @@
 using System;
 using System.IO;
 
+
+string answers;
 Console.WriteLine("Hello world. I woke up.");
-string answer;
-answer = Question("What do you want to do?");
-while(answer != "help")
+do{
+    answers = Control();
+}while (answers != "end") ;
+
+static string Control()
 {
-    Console.WriteLine("createKey is creating keyFile for Cryptography.");
-    Console.WriteLine("encrypt is encrypting the date file you want with created keyFile.");
-    Console.WriteLine("sort is sorting the encrypted file with keyFile.");
-}
-if(answer == "createKey")
-{
-    createKey();
-}
-else
-{
-    if(answer == "encrypt")
+    string answer;
+    answer = Question("What do you want to do?");
+    if(answer == "help")
     {
-        encrypt();
+        Console.WriteLine("createKey is creating keyFile for Cryptography.");
+        Console.WriteLine("encrypt is encrypting the date file you want with created keyFile.");
+        Console.WriteLine("sort is sorting the encrypted file with keyFile.");
+    }
+
+    if(answer == "createKey")
+    {
+        createKey();
     }
     else
     {
-        if(answer == "sort")
+        if(answer == "encrypt")
         {
-            sort();
+            encrypt();
+        }
+        else
+        {
+            if(answer == "sort")
+            {
+                sort();
+            }
         }
     }
+    return answer;
+    answer = null;
 }
+
 
 static string Question(string text)
 {
