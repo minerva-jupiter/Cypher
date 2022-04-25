@@ -196,19 +196,32 @@ static void encrypt()
     fileStream.Close();
 
     //参照したファイルのビット数が百の倍数か判定する。
-    if(bs.Length % 100 == 0)
+    if (bs.Length % 100 == 0)
     {
         b = bs.Length / 100;
         //ファイルを百分割してdata配列に代入
         while (a < 100)
         {
-            date[a] = BitConverter.ToString(BitConverter.GetBytes(bs[a]));
-            c = c + b;
+            while (c = c+b)
+            {
+                date[a] = BitConverter.ToString(BitConverter.GetBytes(bs[c]));
+                c++;
+            }
+            a++;
         }
     }
     else
     {
-        d = bs.Length % 100;
+        a = 0;
+        b = bs.Length / 99;
+        d = bs.Length % 99;
+        while (a < 99)
+        {
+            date[a] = BitConverter.ToString(BitConverter.GetBytes(bs[c]));
+            c = c + b;
+            a++;
+        }
+        date[100] = BitConverter.ToString(BitConverter.GetBytes(bs[b * 99]));
     }
 
     a = 0;
