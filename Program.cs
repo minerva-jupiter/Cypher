@@ -196,7 +196,8 @@ static void encrypt()
 
     //閉じる
     fileStream.Close();
-
+    
+    //date[]にビット単位で百分割したファイルを保存
     //参照したファイルのビット数が百の倍数か判定する。
     if (bs.Length % 100 == 0)
     {
@@ -247,12 +248,6 @@ static void encrypt()
         date[100] = e;
     }
 
-    a = 0;
-    while (a < 100)
-    {
-        //百分割したファイルのそれぞれをdate配列に代入
-        date[a] = BitConverter.ToString(bs);
-    }
     //配列の順に検索
     a = 0;
     StreamWriter writer = new StreamWriter(whereEncryptedFile);
