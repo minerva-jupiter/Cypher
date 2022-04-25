@@ -39,7 +39,6 @@ static string Control()
         }
     }
     return answer;
-    answer = null;
 }
 
 
@@ -156,6 +155,8 @@ static void encrypt()
     string[] date = new string[100];
     int a = 0;
     int b = 0;
+    int c = 0;
+    int d = 0;
 
     //質問
     string whereDateFile;
@@ -184,19 +185,37 @@ static void encrypt()
         whereDateFile,
         System.IO.FileMode.Open,
         System.IO.FileAccess.Read);
+
     //ファイルを読み込むバイト型配列を作成する
     byte[] bs = new byte[fileStream.Length];
+
     //ファイルの内容をすべて読み込む
     fileStream.Read(bs, 0, bs.Length);
+
     //閉じる
     fileStream.Close();
 
+    //参照したファイルのビット数が百の倍数か判定する。
+    if(bs.Length % 100 == 0)
+    {
+        b = bs.Length / 100;
+        //ファイルを百分割してdata配列に代入
+        while (a < 100)
+        {
+            date[a] = BitConverter.ToString(BitConverter.GetBytes(bs[a]));
+            c = c + b;
+        }
+    }
+    else
+    {
+        d = bs.Length % 100;
+    }
 
     a = 0;
     while (a < 100)
     {
         //百分割したファイルのそれぞれをdate配列に代入
-        date[a] = System.Text.Encoding.ASCII.GetString(bs);
+        date[a] = BitConverter.ToString(bs);
     }
     //配列の順に検索
     a = 0;
