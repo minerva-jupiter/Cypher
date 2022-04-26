@@ -59,9 +59,12 @@ static void sort()
 
     //変数宣言
     int[] order = new int[100];
-    string written;
+    string[] written = new string[100];
+    string writtens;
     int a = 0;
     int b = 0;
+    byte[] dates = new byte[100];
+    int oneTimeInt;
 
     //質問
     string whereEncrypted;
@@ -90,14 +93,17 @@ static void sort()
         b = Array.IndexOf(order, a);
 
         //参照して"written"に代入
-        written = File.ReadLines(whereEncrypted).Skip(b).First();
+        written[a] = File.ReadLines(whereEncrypted).Skip(b).First();
 
-        //sortedFileに書き込み
-        writer.WriteLine(written);
-        
+        //stringをbyteに変換して代入
         a++;
     }
     writer.Close();
+
+    //writtenを一つに統合
+    writtens = string.Concat(written);
+    dates = Encoding.GetEncoding("UTF-8").GetBytes(writtens);
+
 }
 
 static void createKey()
@@ -159,6 +165,7 @@ static void encrypt()
     int d = 0;
     string e;
     int f = 0;
+    byte[] onetime = new byte[1];
 
     //質問
     string whereDateFile;
@@ -207,11 +214,13 @@ static void encrypt()
         //ファイルを百分割してdata配列に代入
         while (a < 100)
         {
-            e = BitConverter.ToString(BitConverter.GetBytes(bs[c]));
+            onetime[0] = bs[c];
+            e = BitConverter.ToString(onetime);
             c++;
             while (d >= c + b)
             {
-                e += BitConverter.ToString(BitConverter.GetBytes(bs[c]));
+                onetime[0] = bs[c];
+                e += BitConverter.ToString(onetime);
                 c++;
             }
             d = d + b;
@@ -222,17 +231,20 @@ static void encrypt()
     }
     else
     {
+        c = 0;
         a = 0;
         b = bs.Length / 99;
         d = bs.Length % 99;
         f = b;
         while (a < 99)
         {
-            e = BitConverter.ToString(BitConverter.GetBytes(bs[c]));
+            onetime[0] = bs[c];
+            e = BitConverter.ToString(onetime);
             c++;
             while (f > c + b)
             {
-                e += BitConverter.ToString(BitConverter.GetBytes(bs[c]));
+                onetime[0] = bs[c];
+                e += BitConverter.ToString(onetime);
                 c++;
             }
             f = f + b;
@@ -240,10 +252,12 @@ static void encrypt()
             a++;
         }
         //100個めに余りを入れる。
-        e = BitConverter.ToString(BitConverter.GetBytes(bs[c]));
+        onetime[0] = bs[c];
+        e = BitConverter.ToString(onetime);
         while (d >= c + b)
         {
-            e += BitConverter.ToString(BitConverter.GetBytes(bs[c]));
+            onetime[0] = bs[c];
+            e += BitConverter.ToString(onetime);
         }
         date[100] = e;
     }
