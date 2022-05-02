@@ -6,7 +6,7 @@ This is based on the principle of combination.
 
 We'll improve this program more.
 
-so pls like and subscribe us!
+So please like and subscribe!
 
 We hope it will be one of the counter-quantum computer cryptography.
 
