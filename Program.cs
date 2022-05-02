@@ -64,7 +64,7 @@ static void sort()
     int a = 0;
     int b = 0;
     byte[] dates = new byte[100];
-    int oneTimeInt;
+    int o1Int;
 
     //質問
     string whereEncrypted;
@@ -163,9 +163,10 @@ static void encrypt()
     int b = 0;
     int c = 0;
     int d = 0;
+    int chapter = 0;
     string e;
     int f = 0;
-    byte[] onetime = new byte[1];
+    byte[] o1 = new byte[1];
 
     //質問
     string whereDateFile;
@@ -208,22 +209,22 @@ static void encrypt()
     //参照したファイルのビット数が百の倍数か判定する。
     if (bs.Length % 100 == 0)
     {
-        b = bs.Length / 100;
-        d = b;
+        chapter = bs.Length / 100;
+        d = chapter;
         c = 0;
         //ファイルを百分割してdata配列に代入
         while (a < 100)
         {
-            onetime[0] = bs[c];
-            e = BitConverter.ToString(onetime);
+            o1[0] = bs[c];
+            e = BitConverter.ToString(o1);
             c++;
-            while (d >= c + b)
+            while (d >= c + chapter)
             {
-                onetime[0] = bs[c];
-                e += BitConverter.ToString(onetime);
+                o1[0] = bs[c];
+                e += BitConverter.ToString(o1);
                 c++;
             }
-            d = d + b;
+            d = d + chapter;
 
             date[a] = e;
             a++;
@@ -238,13 +239,13 @@ static void encrypt()
         f = b;
         while (a < 99)
         {
-            onetime[0] = bs[c];
-            e = BitConverter.ToString(onetime);
+            o1[0] = bs[c];
+            e = BitConverter.ToString(o1);
             c++;
             while (f > c + b)
             {
-                onetime[0] = bs[c];
-                e += BitConverter.ToString(onetime);
+                o1[0] = bs[c];
+                e += BitConverter.ToString(o1);
                 c++;
             }
             f = f + b;
@@ -252,12 +253,12 @@ static void encrypt()
             a++;
         }
         //100個めに余りを入れる。
-        onetime[0] = bs[c];
-        e = BitConverter.ToString(onetime);
+        o1[0] = bs[c];
+        e = BitConverter.ToString(o1);
         while (d >= c + b)
         {
-            onetime[0] = bs[c];
-            e += BitConverter.ToString(onetime);
+            o1[0] = bs[c];
+            e += BitConverter.ToString(o1);
         }
         date[100] = e;
     }
