@@ -64,7 +64,7 @@ static void sort()
     int a = 0;
     int b = 0;
     byte[] dates = new byte[100];
-    int o1Int;
+    int o1;
 
     //質問
     string whereEncrypted;
@@ -218,7 +218,7 @@ static void encrypt()
             o1[0] = bs[c];
             e = BitConverter.ToString(o1);
             c++;
-            while (d >= c + chapter)
+            while (d + chapter >= c)
             {
                 o1[0] = bs[c];
                 e += BitConverter.ToString(o1);
