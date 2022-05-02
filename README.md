@@ -1,6 +1,6 @@
 Hi this is "Cypher"
 
-This is a new cryptographic technique we propose.
+This is a new cryptographic technology we propose.
 
 This is based on the principle of combination.
 
