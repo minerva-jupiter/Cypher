@@ -1,12 +1,12 @@
-Cypher
+Hi this is "Cypher"
 
-This is a new cryptographic technique we propose.
+This is a new cryptographic technology we propose.
 
 This is based on the principle of combination.
 
 We'll improve this program more.
 
-so pls like and subscribe us!
+So please like and subscribe!
 
 We hope it will be one of the counter-quantum computer cryptography.
 
