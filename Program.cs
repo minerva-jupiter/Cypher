@@ -77,7 +77,7 @@ static void sort()
     //順序ファイルの読み込み
     StreamReader sr = new StreamReader(whereKeyFile, encoding: Encoding.GetEncoding("UTF-8"));
 
-    //配列に順序を書き込み
+    //配列に順序を読み込み
     while (a < 100)
     {
         order[a] = int.Parse(sr.ReadLine());
@@ -102,8 +102,11 @@ static void sort()
 
     //writtenを一つに統合
     writtens = string.Concat(written);
+    //まとめてbyte[]型に代入
     dates = Encoding.GetEncoding("UTF-8").GetBytes(writtens);
 
+    //復元ファイルの生成
+    File.WriteAllBytes(whereKeyFile, dates);
 }
 
 static void createKey()
@@ -205,6 +208,18 @@ static void encrypt()
     //閉じる
     fileStream.Close();
     
+
+    //100dyteを満たさない場合は残りのファイルにゼロを代入
+    if(bs.Length > 100)
+    {
+        int dateLength=bs.Length;
+        while(dateLength == 100)
+        {
+            bs[dateLength + 1] = 0;
+            dateLength = bs.Length;
+        }
+    }
+
     //date[]にビット単位で百分割したファイルを保存
     //参照したファイルのビット数が百の倍数か判定する。
     if (bs.Length % 100 == 0)
@@ -232,6 +247,7 @@ static void encrypt()
     }
     else
     {
+        //長さを99で割って、均等に入れる。
         c = 0;
         a = 0;
         b = bs.Length / 99;
@@ -262,7 +278,10 @@ static void encrypt()
         }
         date[100] = e;
     }
+    //データの全体のサイズを表示
+    Console.WriteLine(bs.Length);
 
+    //encryptedファイルの生成を開始
     //配列の順に検索
     a = 0;
     StreamWriter writer = new StreamWriter(whereEncryptedFile);
