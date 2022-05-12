@@ -73,6 +73,9 @@ static void sort()
     whereKeyFile = Question("Where is KeyFile?");
     string whereSortedFile;
     whereSortedFile = Question("Where will you create sorted file?");
+    string howLongDate;
+    howLongDate = Question("How Long the date file?");
+    int howLongDateInt = int.Parse(howLongDate);
 
     //順序ファイルの読み込み
     StreamReader sr = new StreamReader(whereKeyFile, encoding: Encoding.GetEncoding("UTF-8"));
@@ -102,8 +105,19 @@ static void sort()
 
     //writtenを一つに統合
     writtens = string.Concat(written);
-    //まとめてbyte[]型に代入
-    dates = Encoding.GetEncoding("UTF-8").GetBytes(writtens);
+    
+    //ファイルサイズが100以下の場合
+    if(howLongDateInt < 100)
+    {
+        dates = Encoding.GetEncoding("UTF-8").GetBytes(string.Concat(new ArraySegment<string>(written, 0, howLongDateInt)));
+    }
+    else
+    {
+        dates = Encoding.GetEncoding("UTF-8").GetBytes(writtens);
+    }
+
+
+
 
     //復元ファイルの生成
     File.WriteAllBytes(whereKeyFile, dates);
@@ -280,6 +294,7 @@ static void encrypt()
     }
     //データの全体のサイズを表示
     Console.WriteLine(bs.Length);
+
 
     //encryptedファイルの生成を開始
     //配列の順に検索
