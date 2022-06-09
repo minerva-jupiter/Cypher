@@ -36,6 +36,13 @@ static string Control()
             {
                 sort();
             }
+            else
+            {
+                if (answer == "createTestDate")
+                {
+                    CreateDate();
+                }
+            }
         }
     }
     return answer;
@@ -64,7 +71,6 @@ static void sort()
     int a = 0;
     int b = 0;
     byte[] dates = new byte[100];
-    int o1;
 
     //質問
     string whereEncrypted;
@@ -165,14 +171,13 @@ static void encrypt()
     int[] order = new int[100];
     string written;
     string[] date = new string[100];
-    int a = 0;
-    int b = 0;
-    int c = 0;
-    int d = 0;
+    int quotient; //商
+    int amari = 0; //あまり
+    int inNumber = 0; //入力データ番号
+    int arrayNumber = 0; //配列番号
     int chapter = 0;
-    string e;
     int f = 0;
-    byte[] o1 = new byte[1];
+    byte[] eByte = new byte[1];
 
     //質問
     string whereDateFile;
@@ -187,10 +192,10 @@ static void encrypt()
     Console.WriteLine("読み込み終わり");
 
     //配列に順序を書き込み
-    while (a < 100)
+    while (inNumber < 100)
     {
-        order[a] = int.Parse(sr.ReadLine());
-        a++;
+        order[inNumber] = int.Parse(sr.ReadLine());
+        inNumber++;
     }
     //データ配列をファイルに書き込む
 
@@ -211,6 +216,7 @@ static void encrypt()
     //閉じる
     fileStream.Close();
     
+    inNumber = 0;
 
     //100dyteを満たさない場合は残りのファイルにゼロを代入
     if(bs.Length > 100)
@@ -227,59 +233,36 @@ static void encrypt()
     //参照したファイルのビット数が百の倍数か判定する。
     if (bs.Length % 100 == 0)
     {
-        chapter = bs.Length / 100;
-        d = chapter;
-        c = 0;
+        //100の倍数の場合
+        f = chapter;
+        quotient = bs.Length / 100;
         //ファイルを百分割してdata配列に代入
-        while (a < 100)
+        while(arrayNumber < 100)
         {
-            o1[0] = bs[c];
-            e = BitConverter.ToString(o1);
-            c++;
-            while (d + chapter >= c)
+            f = f + quotient + 1;
+            while(chapter < f)
             {
-                o1[0] = bs[c];
-                e += BitConverter.ToString(o1);
-                c++;
+                eByte[0] = bs[inNumber];
+                date[arrayNumber] = Encoding.GetEncoding("UTF-8").GetString(eByte);
+                arrayNumber++;
             }
-            d = d + chapter;
-
-            date[a] = e;
-            a++;
         }
     }
     else
     {
-        //長さを99で割って、均等に入れる。
-        c = 0;
-        a = 0;
-        b = bs.Length / 99;
-        d = bs.Length % 99;
-        f = b;
-        while (a < 99)
+        quotient = bs.Length / 99;
+        //100の倍数ではないとき
+        while (arrayNumber < 100)
         {
-            o1[0] = bs[c];
-            e = BitConverter.ToString(o1);
-            c++;
-            while (f > c + b)
+            f = f + quotient - 1;
+            while(inNumber < f)
             {
-                o1[0] = bs[c];
-                e += BitConverter.ToString(o1);
-                c++;
+                eByte[0] = bs[inNumber];
+                date[arrayNumber] = Encoding.GetEncoding("UTF-8").GetString(eByte);
+                inNumber++;
             }
-            f = f + b;
-
-            a++;
+            arrayNumber++;
         }
-        //100個めに余りを入れる。
-        o1[0] = bs[c];
-        e = BitConverter.ToString(o1);
-        while (d >= c + b)
-        {
-            o1[0] = bs[c];
-            e += BitConverter.ToString(o1);
-        }
-        date[100] = e;
     }
     //データの全体のサイズを表示
     Console.WriteLine(bs.Length);
@@ -287,28 +270,29 @@ static void encrypt()
 
     //encryptedファイルの生成を開始
     //配列の順に検索
-    a = 0;
+    inNumber = 0;
+    int b;
     StreamWriter writer = new StreamWriter(whereEncryptedFile);
-    while (a < date.Length)
+    while (inNumber < date.Length)
     {
         //参照すべき行を検索
-        b = order[a];
+        b = order[inNumber];
 
         //参照して"written"に代入
-        written = File.ReadLines(date[a]).Skip(a).First();
+        written = File.ReadLines(date[inNumber]).Skip(inNumber).First();
 
         //"encrypted"に書き込み
         
         writer.WriteLine(written);
 
-        a++;
+        inNumber++;
         
     }
     writer.Close();
 }
 
 
-void CreateDate()
+static void CreateDate()
 {
     string whereCreateDateFile = Question("where do you want to create test date file?");
     int[] date = new int[100];
@@ -321,4 +305,5 @@ void CreateDate()
     {
         streamWriter.WriteLine(date[i]);
     }
+    streamWriter.Close();
 }
