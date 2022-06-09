@@ -125,45 +125,34 @@ static void sort()
 
 static void createKey()
 {
+    string whereKeyFile = Question("Where will you want to create the keyFile?");
     //順序ファイルの生成
     int random;
-    int count = 0;
+    int count = 1;
     int[] order = new int[100];
     //百個数字が埋められるまで繰り返す。
-    while (count >= 100)
+    while (count < 100)
     {
-        //Int32と同じサイズのバイト配列にランダムな値を設定する
-        //byte[] bs = new byte[sizeof(int)];
-        byte[] bs = new byte[4];
-        System.Security.Cryptography.RNGCryptoServiceProvider rng = new System.Security.Cryptography.RNGCryptoServiceProvider();
-        rng.GetBytes(bs);
-        //.NET Framework 4.0以降
-        rng.Dispose();
-
-        //Int32に変換する
-        random = System.BitConverter.ToInt32(bs, 0);
-
-        //下二桁の抽出
-        random = random % 100;
-
-        //書き出し
-        //Console.WriteLine(random);
+        var randomer = new Random();
+        random = randomer.Next(minValue: 0, maxValue: 100);
 
         //今までにない数かどうかを評価
-        if (Array.IndexOf(order, random) >= 0)
+        if (Array.IndexOf(order, random) < 0)
         {
             //生成した変数を"order"に代入
             order[count] = random;
             count++;
+            Console.WriteLine(random);
         }
     }
 
     //keyFileに書き出し
-    string whereKeyFile = Question("Where will you want to create the keyFile?");
-    StreamWriter streamWriter = new StreamWriter(whereKeyFile, true);
+    StreamWriter streamWriter = new StreamWriter(whereKeyFile);
+    Console.WriteLine("Created StreamWriter");
     for(count= 0; count < order.Length; count++)
     {
         streamWriter.WriteLine(order[count]);
+        Console.WriteLine(count + order[count]);
     }
     streamWriter.Close();
 }
