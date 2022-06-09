@@ -306,3 +306,19 @@ static void encrypt()
     }
     writer.Close();
 }
+
+
+void CreateDate()
+{
+    string whereCreateDateFile = Question("where do you want to create test date file?");
+    int[] date = new int[100];
+    for(int i = 0; i < date.Length; i++)
+    {
+        date[i] = i;
+    }
+    StreamWriter streamWriter = new StreamWriter(whereCreateDateFile);
+    for(int i = 0; i < date.Length; i++)
+    {
+        streamWriter.WriteLine(date[i]);
+    }
+}
