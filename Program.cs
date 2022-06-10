@@ -56,6 +56,35 @@ static string Question(string text)
     while(answer == null)
     {
         Console.WriteLine("Plese type anything");
+        answer = Console.ReadLine();
+    }
+    return answer;
+}
+
+static string QuestionWhere(string text)
+{
+    Console.WriteLine(text);
+    string answer = Console.ReadLine();
+    while(answer == null || File.Exists(answer))
+    {
+        
+        if (File.Exists(answer))
+        {
+            Console.WriteLine("File not found");
+        }
+        else
+        {
+            if (answer.StartsWith("@")==false)
+            {
+                Console.WriteLine("You should write first of path with @");
+                Console.WriteLine("Ex:" + "@" + @"H:\date\");
+            }
+            else
+            {
+                Console.WriteLine("Please type anything");
+            }
+        }
+        answer = Console.ReadLine();
     }
     return answer;
 }
@@ -185,7 +214,7 @@ static void encrypt()
     string whereKeyFile;
     whereKeyFile = Question("Where is keyFile?");
     string whereEncryptedFile;
-    whereEncryptedFile = Question("Where will you create encrypted file?");
+    whereEncryptedFile = QuestionWhere("Where will you create encrypted file?");
 
     //順序ファイルの読み込み
     StreamReader sr = new StreamReader(whereKeyFile);
@@ -264,8 +293,6 @@ static void encrypt()
             arrayNumber++;
         }
     }
-    //データの全体のサイズを表示
-    Console.WriteLine(bs.Length);
 
 
     //encryptedファイルの生成を開始
@@ -290,7 +317,6 @@ static void encrypt()
     }
     writer.Close();
 }
-
 
 static void CreateDate()
 {
