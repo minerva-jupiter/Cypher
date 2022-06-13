@@ -1,7 +1,9 @@
 ﻿using System.Text;
 using System;
 using System.IO;
-
+using System.Security.AccessControl;
+using System.Security.Principal;
+using Microsoft.Win32.SafeHandles;
 
 string answers;
 Console.WriteLine("Hello world. I woke up.");
@@ -210,15 +212,24 @@ static void encrypt()
 
     //質問
     string whereDateFile;
-    whereDateFile = Question("Where is the file you want to encrypt?");
+    //whereDateFile = Question("Where is the file you want to encrypt?");
+    whereDateFile = @"h:\date.txt";
     string whereKeyFile;
-    whereKeyFile = Question("Where is keyFile?");
+    //whereKeyFile = Question("Where is keyFile?");
+    whereKeyFile = @"h:\key.txt";
     string whereEncryptedFile;
-    whereEncryptedFile = QuestionWhere("Where will you create encrypted file?");
+    //whereEncryptedFile = Question("Where will you create encrypted file?");
+    whereEncryptedFile = @"h:\encrypted";
 
     //順序ファイルの読み込み
     StreamReader sr = new StreamReader(whereKeyFile);
-    Console.WriteLine("読み込み終わり");
+    Console.WriteLine("KeyFile was readed");
+
+    //エンコード先ファイルの存在確認と生成
+    if (File.Exists(whereEncryptedFile)==false)
+    {
+        File.Create(whereEncryptedFile);
+    }
 
     //配列に順序を書き込み
     while (inNumber < 100)
@@ -226,21 +237,21 @@ static void encrypt()
         order[inNumber] = int.Parse(sr.ReadLine());
         inNumber++;
     }
-    //データ配列をファイルに書き込む
-
-    //ファイルをバイトごとに分割
+    Console.WriteLine("Order was written to int.");
 
     //ファイルを開く
     System.IO.FileStream fileStream = new System.IO.FileStream(
         whereDateFile,
         System.IO.FileMode.Open,
         System.IO.FileAccess.Read);
+    Console.WriteLine("Date File was readed.");
 
     //ファイルを読み込むバイト型配列を作成する
     byte[] bs = new byte[fileStream.Length];
 
     //ファイルの内容をすべて読み込む
     fileStream.Read(bs, 0, bs.Length);
+    Console.WriteLine("Date was readed to byte.");
 
     //閉じる
     fileStream.Close();
@@ -248,8 +259,9 @@ static void encrypt()
     inNumber = 0;
 
     //100dyteを満たさない場合は残りのファイルにゼロを代入
-    if(bs.Length > 100)
+    if(bs.Length < 100)
     {
+        Console.WriteLine("File size is less than 100");
         int dateLength=bs.Length;
         while(dateLength == 100)
         {
@@ -299,23 +311,24 @@ static void encrypt()
     //配列の順に検索
     inNumber = 0;
     int b;
-    StreamWriter writer = new StreamWriter(whereEncryptedFile);
     while (inNumber < date.Length)
     {
         //参照すべき行を検索
         b = order[inNumber];
 
         //参照して"written"に代入
-        written = File.ReadLines(date[inNumber]).Skip(inNumber).First();
+        written = date[b];
 
         //"encrypted"に書き込み
-        
-        writer.WriteLine(written);
+
+        using (StreamWriter outputFile = new(Path.Combine(whereEncryptedFile)))
+        {
+                outputFile.WriteLine(written);
+        }
 
         inNumber++;
         
     }
-    writer.Close();
 }
 
 static void CreateDate()
