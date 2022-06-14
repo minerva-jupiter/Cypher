@@ -63,34 +63,6 @@ static string Question(string text)
     return answer;
 }
 
-static string QuestionWhere(string text)
-{
-    Console.WriteLine(text);
-    string answer = Console.ReadLine();
-    while(answer == null || File.Exists(answer))
-    {
-        
-        if (File.Exists(answer))
-        {
-            Console.WriteLine("File not found");
-        }
-        else
-        {
-            if (answer.StartsWith("@")==false)
-            {
-                Console.WriteLine("You should write first of path with @");
-                Console.WriteLine("Ex:" + "@" + @"H:\date\");
-            }
-            else
-            {
-                Console.WriteLine("Please type anything");
-            }
-        }
-        answer = Console.ReadLine();
-    }
-    return answer;
-}
-
 static void sort()
 {
     //復号プログラム
@@ -275,35 +247,49 @@ static void encrypt()
     if (bs.Length % 100 == 0)
     {
         //100の倍数の場合
-        f = chapter;
+        Console.WriteLine("date.Length mod10 = 0");
+        inNumber = 0;
         quotient = bs.Length / 100;
         //ファイルを百分割してdata配列に代入
         while(arrayNumber < 100)
         {
             f = f + quotient + 1;
-            while(chapter < f)
-            {
-                eByte[0] = bs[inNumber];
-                date[arrayNumber] = Encoding.GetEncoding("UTF-8").GetString(eByte);
-                arrayNumber++;
-            }
-        }
-    }
-    else
-    {
-        quotient = bs.Length / 99;
-        //100の倍数ではないとき
-        while (arrayNumber < 100)
-        {
-            f = f + quotient - 1;
             while(inNumber < f)
             {
                 eByte[0] = bs[inNumber];
                 date[arrayNumber] = Encoding.GetEncoding("UTF-8").GetString(eByte);
                 inNumber++;
             }
+            Console.WriteLine(arrayNumber + "まで代入完了");
             arrayNumber++;
         }
+    }
+    else
+    {
+        quotient = bs.Length / 99;
+        //100の倍数ではないとき
+        f = 0;
+        inNumber = 0;
+        while (arrayNumber < 99)
+        {
+            f = f + quotient - 1;
+            while(inNumber < f)
+            {
+                eByte[0] = bs[inNumber];
+                date[arrayNumber] = date[arrayNumber] + Encoding.GetEncoding("UTF-8").GetString(eByte);
+                inNumber++;
+            }
+            Console.WriteLine(arrayNumber + "まで代入完了");
+            arrayNumber++;
+        }
+        //余りをdate[100]に代入
+        while(inNumber <= bs.Length - 1)
+        {
+            eByte[0] = bs[inNumber];
+            date[arrayNumber] = date[arrayNumber] + Encoding.GetEncoding("UTF-8").GetString(eByte);
+            inNumber++;
+        }
+        Console.WriteLine(arrayNumber + "まで代入完了");
     }
 
 
@@ -326,9 +312,10 @@ static void encrypt()
                 outputFile.WriteLine(written);
         }
 
+        Console.WriteLine(inNumber + "まで代入完了");
         inNumber++;
-        
     }
+    Console.WriteLine("Encrypt was done!");
 }
 
 static void CreateDate()
