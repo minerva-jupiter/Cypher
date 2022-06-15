@@ -71,7 +71,7 @@ static void sort()
     int[] order = new int[100];
     string[] written = new string[100];
     string writtens;
-    int a = 0;
+    int inNumber = 0;
     int b = 0;
     byte[] dates = new byte[100];
 
@@ -90,25 +90,25 @@ static void sort()
     StreamReader sr = new StreamReader(whereKeyFile, encoding: Encoding.GetEncoding("UTF-8"));
 
     //配列に順序を読み込み
-    while (a < 100)
+    while (inNumber < 100)
     {
-        order[a] = int.Parse(sr.ReadLine());
-        a++;
+        order[inNumber] = int.Parse(sr.ReadLine());
+        inNumber++;
     }
 
     //配列の順に検索
-    a = 0;
+    inNumber = 0;
     StreamWriter writer = new StreamWriter(whereSortedFile, true);
-    while (a < 100)
+    while (inNumber < 100)
     {
         //参照すべき行を検索
-        b = Array.IndexOf(order, a);
+        b = Array.IndexOf(order, inNumber);
 
         //参照して"written"に代入
-        written[a] = File.ReadLines(whereEncrypted).Skip(b).First();
+        written[inNumber] = File.ReadLines(whereEncrypted).Skip(b).First();
 
         //stringをbyteに変換して代入
-        a++;
+        inNumber++;
     }
     writer.Close();
 
@@ -184,14 +184,14 @@ static void encrypt()
 
     //質問
     string whereDateFile;
-    //whereDateFile = Question("Where is the file you want to encrypt?");
-    whereDateFile = @"h:\date.txt";
+    whereDateFile = Question("Where is the file you want to encrypt?");
+
     string whereKeyFile;
-    //whereKeyFile = Question("Where is keyFile?");
-    whereKeyFile = @"h:\key.txt";
+    whereKeyFile = Question("Where is keyFile?");
+
     string whereEncryptedFile;
-    //whereEncryptedFile = Question("Where will you create encrypted file?");
-    whereEncryptedFile = @"h:\encrypted";
+    whereEncryptedFile = Question("Where will you create encrypted file?");
+
 
     //順序ファイルの読み込み
     StreamReader sr = new StreamReader(whereKeyFile);
@@ -270,9 +270,9 @@ static void encrypt()
         //100の倍数ではないとき
         f = 0;
         inNumber = 0;
+        f = f + quotient - 1;
         while (arrayNumber < 99)
         {
-            f = f + quotient - 1;
             while(inNumber < f)
             {
                 eByte[0] = bs[inNumber];
@@ -281,6 +281,7 @@ static void encrypt()
             }
             Console.WriteLine(arrayNumber + "まで代入完了");
             arrayNumber++;
+            f = f + quotient;
         }
         //余りをdate[100]に代入
         while(inNumber <= bs.Length - 1)
@@ -297,6 +298,7 @@ static void encrypt()
     //配列の順に検索
     inNumber = 0;
     int b;
+    StreamWriter outputFile = new(Path.Combine(whereEncryptedFile));
     while (inNumber < date.Length)
     {
         //参照すべき行を検索
@@ -307,14 +309,13 @@ static void encrypt()
 
         //"encrypted"に書き込み
 
-        using (StreamWriter outputFile = new(Path.Combine(whereEncryptedFile)))
-        {
-                outputFile.WriteLine(written);
-        }
+        outputFile.WriteLine(written);
+
 
         Console.WriteLine(inNumber + "まで代入完了");
         inNumber++;
     }
+    outputFile.Close();
     Console.WriteLine("Encrypt was done!");
 }
 
