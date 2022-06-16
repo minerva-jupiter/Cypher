@@ -14,7 +14,7 @@ do{
 static string Control()
 {
     string answer;
-    answer = Question("What do you want to do?");
+    answer = Question("What do you want to do?",false);
     if(answer == "help")
     {
         Console.WriteLine("createKey is creating keyFile for Cryptography.");
@@ -51,14 +51,25 @@ static string Control()
 }
 
 
-static string Question(string text)
+static string Question(string text,bool exsis)
 {
     Console.WriteLine(text);
     string answer = Console.ReadLine();
-    while(answer == null)
+    if (exsis)
     {
-        Console.WriteLine("Plese type anything");
-        answer = Console.ReadLine();
+        while(answer == null | File.Exists(answer))
+        {
+            Console.WriteLine("You have not typed anything or you are specifying a file that does not exist");
+            answer = Console.ReadLine();
+        }
+    }
+    else
+    {
+        while (answer == null)
+        {
+            Console.WriteLine("Plese type anything");
+            answer = Console.ReadLine();
+        }
     }
     return answer;
 }
@@ -77,13 +88,13 @@ static void sort()
 
     //質問
     string whereEncrypted;
-    whereEncrypted = Question("Where is encrypted file?");
+    whereEncrypted = Question("Where is encrypted file?",true);
     string whereKeyFile;
-    whereKeyFile = Question("Where is KeyFile?");
+    whereKeyFile = Question("Where is KeyFile?",true);
     string whereSortedFile;
-    whereSortedFile = Question("Where will you create sorted file?");
+    whereSortedFile = Question("Where will you create sorted file?",false);
     string howLongDate;
-    howLongDate = Question("How Long the date file?");
+    howLongDate = Question("How Long the date file?",false);
     int howLongDateInt = int.Parse(howLongDate);
 
     //順序ファイルの読み込み
@@ -134,7 +145,7 @@ static void sort()
 
 static void createKey()
 {
-    string whereKeyFile = Question("Where will you want to create the keyFile?");
+    string whereKeyFile = Question("Where will you want to create the keyFile?",false);
     //順序ファイルの生成
     int random;
     int count = 1;
@@ -184,13 +195,13 @@ static void encrypt()
 
     //質問
     string whereDateFile;
-    whereDateFile = Question("Where is the file you want to encrypt?");
+    whereDateFile = Question("Where is the file you want to encrypt?",true);
 
     string whereKeyFile;
-    whereKeyFile = Question("Where is keyFile?");
+    whereKeyFile = Question("Where is keyFile?",true);
 
     string whereEncryptedFile;
-    whereEncryptedFile = Question("Where will you create encrypted file?");
+    whereEncryptedFile = Question("Where will you create encrypted file?", false);
 
 
     //順序ファイルの読み込み
@@ -321,7 +332,7 @@ static void encrypt()
 
 static void CreateDate()
 {
-    string whereCreateDateFile = Question("where do you want to create test date file?");
+    string whereCreateDateFile = Question("where do you want to create test date file?", false);
     int[] date = new int[100];
     for(int i = 0; i < date.Length; i++)
     {
