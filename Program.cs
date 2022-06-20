@@ -1,9 +1,6 @@
 ﻿using System.Text;
 using System;
 using System.IO;
-using System.Security.AccessControl;
-using System.Security.Principal;
-using Microsoft.Win32.SafeHandles;
 
 string answers;
 Console.WriteLine("Hello world. I woke up.");
@@ -57,7 +54,7 @@ static string Question(string text,bool exsis)
     string answer = Console.ReadLine();
     if (exsis)
     {
-        while(answer == null | File.Exists(answer))
+        while(answer == null | File.Exists(answer) == false)
         {
             Console.WriteLine("You have not typed anything or you are specifying a file that does not exist");
             answer = Console.ReadLine();
@@ -84,50 +81,94 @@ static void sort()
     string writtens;
     int inNumber = 0;
     int b = 0;
-    byte[] dates = new byte[100];
 
     //質問
     string whereEncrypted;
-    whereEncrypted = Question("Where is encrypted file?",true);
     string whereKeyFile;
-    whereKeyFile = Question("Where is KeyFile?",true);
     string whereSortedFile;
-    whereSortedFile = Question("Where will you create sorted file?",false);
     string howLongDate;
+
+    //自動テスト
+    whereEncrypted = @"h:\encrypted.txt";
+    whereKeyFile = @"h:\key.txt";
+    whereSortedFile = @"h:\sorted.txt";
+    howLongDate = "390";
+
+    /*
+    whereEncrypted = Question("Where is encrypted file?",true);
+    whereKeyFile = Question("Where is KeyFile?",true);
+    whereSortedFile = Question("Where will you create sorted file?",false);
     howLongDate = Question("How Long the date file?",false);
+    */
     int howLongDateInt = int.Parse(howLongDate);
 
-    //順序ファイルの読み込み
-    StreamReader sr = new StreamReader(whereKeyFile, encoding: Encoding.GetEncoding("UTF-8"));
+    //byteのデータを長さの数だけ用意
+    byte[] dates = new byte[howLongDateInt];
+    string[] encrypted = new string[howLongDateInt];
 
+    int quotient;
+    int amari;
+    bool multipleJudgment;
+    //データサイズに適した数ずつ引っこ抜く
+    if (howLongDateInt%100 == 0)
+    {
+        quotient = howLongDateInt/100;
+        amari = howLongDateInt%100;
+        multipleJudgment = true;
+    }
+    else
+    {
+        quotient = howLongDateInt / 99;
+        amari = howLongDateInt - quotient * 99;
+        multipleJudgment = false;
+    }
+
+    //順序ファイルの読み込み
+    StreamReader sr = new StreamReader(whereKeyFile);
+
+    inNumber = 0;
     //配列に順序を読み込み
     while (inNumber < 100)
     {
         order[inNumber] = int.Parse(sr.ReadLine());
+        Console.WriteLine(inNumber);
         inNumber++;
     }
+    Console.WriteLine("key file was readed");
 
-    //配列の順に検索
+
+    //順番にデータを移行
     inNumber = 0;
-    StreamWriter writer = new StreamWriter(whereSortedFile, true);
+    //encrypted の読み込み
+    StreamReader streamReader = new StreamReader(whereEncrypted);
+    inNumber = 0;
+    while(inNumber < howLongDateInt)
+    {
+        encrypted[inNumber] = streamReader.ReadLine();
+        Console.WriteLine(inNumber);
+        inNumber++;
+    }
+    streamReader.Close();
+
+    inNumber = 0;
     while (inNumber < 100)
     {
         //参照すべき行を検索
         b = Array.IndexOf(order, inNumber);
 
         //参照して"written"に代入
-        written[inNumber] = File.ReadLines(whereEncrypted).Skip(b).First();
+        written[inNumber] = encrypted[b];
+        Console.WriteLine(inNumber);
 
-        //stringをbyteに変換して代入
         inNumber++;
     }
-    writer.Close();
 
     //writtenを一つに統合
     writtens = string.Concat(written);
-    
+
+    //データを元の長さに整理
     //ファイルサイズが100以下の場合
-    if(howLongDateInt < 100)
+    if (howLongDateInt < 100)
     {
         dates = Encoding.GetEncoding("UTF-8").GetBytes(string.Concat(new ArraySegment<string>(written, 0, howLongDateInt)));
     }
@@ -135,12 +176,10 @@ static void sort()
     {
         dates = Encoding.GetEncoding("UTF-8").GetBytes(writtens);
     }
+    
+    //書きこ
+    File.WriteAllBytes(whereSortedFile, dates);
 
-
-
-
-    //復元ファイルの生成
-    File.WriteAllBytes(whereKeyFile, dates);
 }
 
 static void createKey()
@@ -195,24 +234,24 @@ static void encrypt()
 
     //質問
     string whereDateFile;
-    whereDateFile = Question("Where is the file you want to encrypt?",true);
-
     string whereKeyFile;
-    whereKeyFile = Question("Where is keyFile?",true);
-
     string whereEncryptedFile;
-    whereEncryptedFile = Question("Where will you create encrypted file?", false);
 
+    //自動テスト
+    whereDateFile = @"h:\date.txt";
+    whereEncryptedFile = @"h:\encrypted.txt";
+    whereKeyFile = @"h:\key.txt";
+
+    /*
+    whereEncryptedFile = Question("Where will you create encrypted file?", false);
+    whereDateFile = Question("Where is the file you want to encrypt?", true);
+    whereKeyFile = Question("Where is keyFile?", true);
+    */
 
     //順序ファイルの読み込み
     StreamReader sr = new StreamReader(whereKeyFile);
     Console.WriteLine("KeyFile was readed");
 
-    //エンコード先ファイルの存在確認と生成
-    if (File.Exists(whereEncryptedFile)==false)
-    {
-        File.Create(whereEncryptedFile);
-    }
 
     //配列に順序を書き込み
     while (inNumber < 100)
@@ -222,22 +261,15 @@ static void encrypt()
     }
     Console.WriteLine("Order was written to int.");
 
-    //ファイルを開く
-    System.IO.FileStream fileStream = new System.IO.FileStream(
-        whereDateFile,
-        System.IO.FileMode.Open,
-        System.IO.FileAccess.Read);
-    Console.WriteLine("Date File was readed.");
-
-    //ファイルを読み込むバイト型配列を作成する
-    byte[] bs = new byte[fileStream.Length];
 
     //ファイルの内容をすべて読み込む
-    fileStream.Read(bs, 0, bs.Length);
+    FileStream fs = new FileStream(whereDateFile, FileMode.Open);
+    byte[] bs = new byte[fs.Length];
+    fs.Read(bs, 0, bs.Length);
+    fs.Close();
     Console.WriteLine("Date was readed to byte.");
 
-    //閉じる
-    fileStream.Close();
+
     
     inNumber = 0;
 
@@ -277,6 +309,7 @@ static void encrypt()
     }
     else
     {
+        Console.WriteLine("date.Length mod10 =! 0");
         quotient = bs.Length / 99;
         //100の倍数ではないとき
         f = 0;
@@ -304,12 +337,11 @@ static void encrypt()
         Console.WriteLine(arrayNumber + "まで代入完了");
     }
 
-
     //encryptedファイルの生成を開始
     //配列の順に検索
     inNumber = 0;
     int b;
-    StreamWriter outputFile = new(Path.Combine(whereEncryptedFile));
+    StreamWriter outputFile = new StreamWriter(whereEncryptedFile);
     while (inNumber < date.Length)
     {
         //参照すべき行を検索
@@ -328,6 +360,8 @@ static void encrypt()
     }
     outputFile.Close();
     Console.WriteLine("Encrypt was done!");
+    Console.WriteLine("The date key is " + bs.Length + ".");
+    Console.WriteLine("You have to remamber it!");
 }
 
 static void CreateDate()
@@ -344,4 +378,14 @@ static void CreateDate()
         streamWriter.WriteLine(date[i]);
     }
     streamWriter.Close();
+}
+
+static void Writedate(string[] date)
+{
+    int inNumber = 0;
+    while(inNumber < date.Length)
+    {
+        Console.WriteLine(date[inNumber]);
+        inNumber++;
+    }
 }
