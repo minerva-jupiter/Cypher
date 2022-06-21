@@ -80,7 +80,6 @@ static void sort()
     string[] written = new string[100];
     string writtens;
     int inNumber = 0;
-    int b = 0;
 
     //質問
     string whereEncrypted;
@@ -105,6 +104,7 @@ static void sort()
     //byteのデータを長さの数だけ用意
     byte[] dates = new byte[howLongDateInt];
     string[] encrypted = new string[howLongDateInt];
+    string[] sorded = new string[howLongDateInt];
 
     int quotient;
     int amari;
@@ -118,6 +118,7 @@ static void sort()
     }
     else
     {
+        //100で割り切れない場合は、99で割って、その余りをすべてamariにぶち込む
         quotient = howLongDateInt / 99;
         amari = howLongDateInt - quotient * 99;
         multipleJudgment = false;
@@ -142,7 +143,7 @@ static void sort()
     //encrypted の読み込み
     StreamReader streamReader = new StreamReader(whereEncrypted);
     inNumber = 0;
-    while(inNumber < howLongDateInt)
+    while(inNumber <= howLongDateInt)
     {
         encrypted[inNumber] = streamReader.ReadLine();
         Console.WriteLine(inNumber);
@@ -151,17 +152,51 @@ static void sort()
     streamReader.Close();
 
     inNumber = 0;
-    while (inNumber < 100)
+    int arreyNumber = 0;
+    int indexNumber = 0;
+    int indexStartNumber;
+    int indexEndNumber;
+    if (multipleJudgment)
     {
-        //参照すべき行を検索
-        b = Array.IndexOf(order, inNumber);
+        //100で割り切れないとき
+        while (arreyNumber < 100)
+        {
+            //参照すべき行を検索
+            indexNumber = Array.IndexOf(order, arreyNumber);
+            //参照始めの行
+            indexStartNumber = indexNumber * quotient;
+            //参照終わり+1の行
+            indexEndNumber = (indexNumber + 1) * quotient;
 
-        //参照して"written"に代入
-        written[inNumber] = encrypted[b];
-        Console.WriteLine(inNumber);
-
-        inNumber++;
+            //参照して"written"に代入
+            indexNumber = indexStartNumber;
+            while(indexNumber < indexEndNumber)
+            {
+                sorded[inNumber] = encrypted[indexNumber];
+                indexNumber++;
+                inNumber++;
+            }
+            arreyNumber++;
+        }
     }
+    else
+    {
+        //100で割り切れない数の場合
+        int whereAmari = Array.IndexOf(order, 99);
+        while(arreyNumber < 100)
+        {
+            indexNumber = Array.IndexOf(order, arreyNumber);
+            if(indexNumber > whereAmari)
+            {
+                //indexNumberがamariより大きいとき
+
+            }
+            
+
+            arreyNumber++;
+        }
+    }
+
 
     //writtenを一つに統合
     writtens = string.Concat(written);
