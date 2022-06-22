@@ -154,8 +154,8 @@ static void sort()
     inNumber = 0;
     int arreyNumber = 0;
     int indexNumber = 0;
-    int indexStartNumber;
-    int indexEndNumber;
+    int indexStartNumber=0;
+    int indexEndNumber=0;
     if (multipleJudgment)
     {
         //100で割り切れないとき
@@ -188,10 +188,29 @@ static void sort()
             indexNumber = Array.IndexOf(order, arreyNumber);
             if(indexNumber > whereAmari)
             {
-                //indexNumberがamariより大きいとき
-
+                //indexNumberとamariの関係で場合分け
+                if(indexNumber < whereAmari)
+                {
+                    //indexNumberがamariの方が小さいとき。
+                    indexStartNumber = indexNumber * quotient;
+                    indexEndNumber = (indexNumber + 1) * quotient;
+                }else if(indexNumber == whereAmari)
+                {
+                    indexStartNumber = indexNumber * quotient;
+                    indexEndNumber = indexNumber * quotient + amari;
+                }else if(indexNumber < whereAmari)
+                {
+                    indexStartNumber = (indexNumber-1) * quotient + amari;
+                    indexEndNumber = indexNumber * quotient +amari;
+                }
             }
-            
+            indexNumber = indexStartNumber;
+            while(indexNumber < indexEndNumber)
+            {
+                sorded[inNumber] = encrypted[indexNumber];
+                indexNumber++;
+                inNumber++;
+            }
 
             arreyNumber++;
         }
