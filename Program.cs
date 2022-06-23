@@ -143,13 +143,14 @@ static void sort()
     //encrypted の読み込み
     StreamReader streamReader = new StreamReader(whereEncrypted);
     inNumber = 0;
-    while(inNumber <= howLongDateInt)
+    while(inNumber < howLongDateInt)
     {
         encrypted[inNumber] = streamReader.ReadLine();
         Console.WriteLine(inNumber);
         inNumber++;
     }
     streamReader.Close();
+    Console.WriteLine("Encrypted date was readed");
 
     inNumber = 0;
     int arreyNumber = 0;
@@ -161,7 +162,7 @@ static void sort()
         //100で割り切れないとき
         while (arreyNumber < 100)
         {
-            //参照すべき行を検索
+            //参照すべき番号を検索
             indexNumber = Array.IndexOf(order, arreyNumber);
             //参照始めの行
             indexStartNumber = indexNumber * quotient;
@@ -176,12 +177,14 @@ static void sort()
                 indexNumber++;
                 inNumber++;
             }
+            Console.WriteLine(arreyNumber);
             arreyNumber++;
         }
     }
     else
     {
         //100で割り切れない数の場合
+        //余りの位置を特定
         int whereAmari = Array.IndexOf(order, 99);
         while(arreyNumber < 100)
         {
@@ -211,14 +214,14 @@ static void sort()
                 indexNumber++;
                 inNumber++;
             }
-
+            Console.WriteLine(arreyNumber);
             arreyNumber++;
         }
     }
+    Console.WriteLine("The date was sorted.");
 
-
-    //writtenを一つに統合
-    writtens = string.Concat(written);
+    //sortedを一つに統合
+    writtens = string.Concat(sorded);
 
     //データを元の長さに整理
     //ファイルサイズが100以下の場合
@@ -420,6 +423,7 @@ static void encrypt()
 
 static void CreateDate()
 {
+    /*
     string whereCreateDateFile = Question("where do you want to create test date file?", false);
     int[] date = new int[100];
     for(int i = 0; i < date.Length; i++)
@@ -432,6 +436,43 @@ static void CreateDate()
         streamWriter.WriteLine(date[i]);
     }
     streamWriter.Close();
+    */
+
+    //順番にデータを移行
+    string whereEncrypted = @"h:\encrypted.txt";
+    int howLongDateInt = 390;
+    int inNumber;
+    string[] encrypted = new string[howLongDateInt];
+    byte[] dates = new byte[howLongDateInt];
+    inNumber = 0;
+    //encrypted の読み込み
+    StreamReader streamReader = new StreamReader(whereEncrypted);
+    inNumber = 0;
+    while (inNumber < howLongDateInt)
+    {
+        encrypted[inNumber] = streamReader.ReadLine();
+        Console.WriteLine(inNumber);
+        inNumber++;
+    }
+    streamReader.Close();
+    Console.WriteLine("Encrypted date was readed");
+
+    //sortedを一つに統合
+    string writtens = string.Concat(encrypted);
+
+    //データを元の長さに整理
+    //ファイルサイズが100以下の場合
+
+    inNumber = 0;
+    while (writtens.Length > 0)
+    {
+        byte date = Encoding.GetEncoding("UTF-8").GetBytes(encrypted[inNumber]);
+        datess[inNumber]= date
+    }
+    
+
+    //書きこ
+    File.WriteAllBytes(@"h:\tested.txt", dates);
 }
 
 static void Writedate(string[] date)
