@@ -6,9 +6,7 @@ This is based on the principle of combination.
 
 We'll improve this program more.
 
-So please like and subscribe!
-
-We hope it will be one of the counter-quantum computer cryptography.
+We hope it will be one of the Post-Quantum Cryptography.
 
 ・tipe "createKey" to create keyFile for Cryptography.
 
