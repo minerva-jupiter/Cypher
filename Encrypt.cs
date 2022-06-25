@@ -40,18 +40,8 @@ namespace Cypher
             whereKeyFile = Question("Where is keyFile?", true);
             */
 
-            //順序ファイルの読み込み
-            StreamReader sr = new StreamReader(whereKeyFile);
-            Console.WriteLine("KeyFile was readed");
-
-
-            //配列に順序を書き込み
-            while (inNumber < 100)
-            {
-                order[inNumber] = int.Parse(sr.ReadLine());
-                inNumber++;
-            }
-            Console.WriteLine("Order was written to int.");
+            ResdFiles resdFiles = new ResdFiles();
+            order = resdFiles.ReadKeyFile(whereKeyFile);
 
 
             //ファイルの内容をすべて読み込む
