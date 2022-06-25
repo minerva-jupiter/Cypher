@@ -25,6 +25,7 @@ namespace Cypher
             int f = 0;
             byte[] eByte = new byte[1];
 
+
             //質問
             string whereDateFile;
             string whereKeyFile;
@@ -47,12 +48,8 @@ namespace Cypher
 
 
             //配列に順序を書き込み
-            while (inNumber < 100)
-            {
-                order[inNumber] = int.Parse(sr.ReadLine());
-                inNumber++;
-            }
-            Console.WriteLine("Order was written to int.");
+            ResdFiles resdFiles = new ResdFiles();
+            order = resdFiles.ReadKeyFile(whereKeyFile);
 
 
             //ファイルの内容をすべて読み込む
@@ -62,10 +59,66 @@ namespace Cypher
             fs.Close();
             Console.WriteLine("Date was readed to byte.");
 
-            //ここまでテスト完了
+            byte[] encrypted = new byte[bs.Length];
 
-            //順序入れ替え
+            //ここまでテスト完了
+            int indexNumuber;
+            int indexEnd;
+            int indexStart;
+            int outNumber = 0;
+            if (bs.Length % 0 == 0)
+            {
+                quotient = bs.Length / 100; 
+                //百で割り切れる場合
+                while(arrayNumber < 100)
+                {
+                    indexNumuber = Array.IndexOf(order, arrayNumber);
+                    indexStart = quotient * indexNumuber;
+                    indexEnd = quotient * (indexNumuber+1);
+                    inNumber = indexStart;
+                    while (inNumber < indexEnd)
+                    {
+                        encrypted[outNumber] = bs[inNumber];
+                        outNumber++;
+                    }
+                    arrayNumber++;
+                }
+            }
+            else
+            {
+                //割り切れない場合
+                quotient = bs.Length / 99;
+                amari = bs.Length - quotient * 99;
+                int where99 = Array.IndexOf(order, 99);
+                {
+                    while(arrayNumber < 100)
+                    {
+                        indexNumuber = Array.IndexOf(order, arrayNumber);
+                        if(indexNumuber < where99)
+                        {
+                            indexStart = quotient * indexNumuber;
+                            indexEnd = quotient * (indexNumuber + 1);
+                        }else if(indexNumuber == where99){
+                            indexStart = where99 * quotient;
+                            indexEnd = (where99+1) * quotient;
+                        }
+                        else
+                        {
+                            indexStart = (indexNumuber-1) * quotient + amari;
+                            indexEnd = indexNumuber * quotient + amari;
+                        }
+                        inNumber = indexStart;
+                        while(inNumber < indexEnd)
+                        {
+                            encrypted[outNumber] = bs[inNumber];
+                            outNumber++;
+                        }
+                        arrayNumber++;
+                    }
+                }
+            }
             
+
 
 
         }

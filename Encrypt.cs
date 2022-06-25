@@ -20,7 +20,7 @@ namespace Cypher
             int amari = 0; //あまり
             int inNumber = 0; //入力データ番号
             int arrayNumber = 0; //配列番号
-            int chapter = 0;
+            int Cchapter = 0;
             int f = 0;
             byte[] eByte = new byte[1];
 
