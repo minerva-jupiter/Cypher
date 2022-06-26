@@ -20,9 +20,10 @@ namespace Cypher
             int amari = 0; //あまり
             int inNumber = 0; //入力データ番号
             int arrayNumber = 0; //配列番号
-            int Cchapter = 0;
+            int chapter = 0;
             int f = 0;
             byte[] eByte = new byte[1];
+
 
             //質問
             string whereDateFile;
@@ -40,6 +41,11 @@ namespace Cypher
             whereKeyFile = Question("Where is keyFile?", true);
             */
 
+            //順序ファイルの読み込み
+            StreamReader sr = new StreamReader(whereKeyFile);
+
+
+            //配列に順序を書き込み
             ResdFiles resdFiles = new ResdFiles();
             order = resdFiles.ReadKeyFile(whereKeyFile);
 
@@ -49,101 +55,75 @@ namespace Cypher
             byte[] bs = new byte[fs.Length];
             fs.Read(bs, 0, bs.Length);
             fs.Close();
-            Console.WriteLine("Date was readed to byte.");
 
+            byte[] encrypted = new byte[bs.Length];
 
-
-            inNumber = 0;
-
-            //100dyteを満たさない場合は残りのファイルにゼロを代入
-            if (bs.Length < 100)
-            {
-                Console.WriteLine("File size is less than 100");
-                int dateLength = bs.Length;
-                while (dateLength == 100)
-                {
-                    bs[dateLength + 1] = 0;
-                    dateLength = bs.Length;
-                }
-            }
-
-            //date[]にビット単位で百分割したファイルを保存
-            //参照したファイルのビット数が百の倍数か判定する。
+            //ここまでテスト完了
+            int indexNumuber;
+            int indexEnd;
+            int indexStart;
+            int outNumber = 0;
             if (bs.Length % 100 == 0)
             {
-                //100の倍数の場合
-                Console.WriteLine("date.Length mod10 = 0");
-                inNumber = 0;
                 quotient = bs.Length / 100;
-                //ファイルを百分割してdata配列に代入
+                //百で割り切れる場合
                 while (arrayNumber < 100)
                 {
-                    f = f + quotient + 1;
-                    while (inNumber < f)
+                    indexNumuber = Array.IndexOf(order, arrayNumber);
+                    indexStart = quotient * indexNumuber;
+                    indexEnd = quotient * (indexNumuber + 1);
+                    inNumber = indexStart;
+                    while (inNumber < indexEnd)
                     {
-                        eByte[0] = bs[inNumber];
-                        date[arrayNumber] = Encoding.GetEncoding("UTF-8").GetString(eByte);
-                        inNumber++;
+                        encrypted[outNumber] = bs[inNumber];
+                        outNumber++;
                     }
-                    Console.WriteLine(arrayNumber + "まで代入完了");
                     arrayNumber++;
                 }
             }
             else
             {
-                Console.WriteLine("date.Length mod10 =! 0");
+                //割り切れない場合
                 quotient = bs.Length / 99;
-                //100の倍数ではないとき
-                f = 0;
-                inNumber = 0;
-                f = f + quotient - 1;
+                amari = bs.Length - quotient * 99;
+                int where99 = Array.IndexOf(order, 99);
+
                 while (arrayNumber < 99)
                 {
-                    while (inNumber < f)
+                    indexNumuber = Array.IndexOf(order, arrayNumber);
+                    if (indexNumuber < where99)
                     {
-                        eByte[0] = bs[inNumber];
-                        date[arrayNumber] = date[arrayNumber] + Encoding.GetEncoding("UTF-8").GetString(eByte);
+                        indexStart = quotient * indexNumuber;
+                        indexEnd = quotient * (indexNumuber + 1);
+                    }
+                    else if (indexNumuber == where99)
+                    {
+                        indexStart = where99 * quotient;
+                        indexEnd = (where99 + 1) * quotient;
+                    }
+                    else
+                    {
+                        indexStart = (indexNumuber - 1) * quotient + amari;
+                        indexEnd = indexNumuber * quotient + amari;
+                    }
+
+
+                    inNumber = indexStart;
+                    while (inNumber < indexEnd)
+                    {
+                        encrypted[outNumber] = bs[inNumber];
+                        outNumber++;
                         inNumber++;
                     }
-                    Console.WriteLine(arrayNumber + "まで代入完了");
                     arrayNumber++;
-                    f = f + quotient;
                 }
-                //余りをdate[100]に代入
-                while (inNumber <= bs.Length - 1)
-                {
-                    eByte[0] = bs[inNumber];
-                    date[arrayNumber] = date[arrayNumber] + Encoding.GetEncoding("UTF-8").GetString(eByte);
-                    inNumber++;
-                }
-                Console.WriteLine(arrayNumber + "まで代入完了");
+
+                //書きこ
+                File.WriteAllBytes(whereEncryptedFile, encrypted);
+                Console.WriteLine("Encrypt was ended.");
+                Console.WriteLine("The date key is " + encrypted.Length + ".");
+                Console.WriteLine("You have to remember it!");
             }
-
-            //encryptedファイルの生成を開始
-            //配列の順に検索
-            inNumber = 0;
-            int b;
-            StreamWriter outputFile = new StreamWriter(whereEncryptedFile);
-            while (inNumber < date.Length)
-            {
-                //参照すべき行を検索
-                b = order[inNumber];
-
-                //参照して"written"に代入
-                written = date[b];
-
-                //"encrypted"に書き込み
-
-                outputFile.WriteLine(written);
-
-
-                Console.WriteLine(inNumber + "まで代入完了");
-                inNumber++;
-            }
-            outputFile.Close();
-            Console.WriteLine("Encrypt was done!");
-            Console.WriteLine("The date key is " + bs.Length + ".");
-            Console.WriteLine("You have to remamber it!");
         }
 
     }
