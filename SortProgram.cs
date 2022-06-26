@@ -41,8 +41,7 @@ namespace Cypher
 
             //byteのデータを長さの数だけ用意
             byte[] dates = new byte[howLongDateInt];
-            string[] encrypted = new string[howLongDateInt];
-            string[] sorded = new string[howLongDateInt];
+            byte[] sorded = new byte[howLongDateInt];
 
             int quotient;
             int amari;
@@ -68,15 +67,10 @@ namespace Cypher
             //順番にデータを移行
             inNumber = 0;
             //encrypted の読み込み
-            StreamReader streamReader = new StreamReader(whereEncrypted);
-            inNumber = 0;
-            while (inNumber < howLongDateInt)
-            {
-                encrypted[inNumber] = streamReader.ReadLine();
-                Console.WriteLine(inNumber);
-                inNumber++;
-            }
-            streamReader.Close();
+            FileStream fs = new FileStream(whereEncrypted, FileMode.Open);
+            byte[] encrypted = new byte[fs.Length];
+            fs.Read(encrypted, 0, encrypted.Length);
+            fs.Close();
             Console.WriteLine("Encrypted date was readed");
 
             inNumber = 0;
@@ -84,6 +78,7 @@ namespace Cypher
             int indexNumber = 0;
             int indexStartNumber = 0;
             int indexEndNumber = 0;
+            int outNumber = 0;
             if (multipleJudgment)
             {
                 //100で割り切れないとき
@@ -113,34 +108,32 @@ namespace Cypher
                 //100で割り切れない数の場合
                 //余りの位置を特定
                 int whereAmari = Array.IndexOf(order, 99);
+
                 while (arreyNumber < 100)
                 {
                     indexNumber = Array.IndexOf(order, arreyNumber);
-                    if (indexNumber > whereAmari)
+                    //indexNumberとamariの関係で場合分け
+                    if (indexNumber < whereAmari)
                     {
-                        //indexNumberとamariの関係で場合分け
-                        if (indexNumber < whereAmari)
-                        {
-                            //indexNumberがamariの方が小さいとき。
-                            indexStartNumber = indexNumber * quotient;
-                            indexEndNumber = (indexNumber + 1) * quotient;
-                        }
-                        else if (indexNumber == whereAmari)
-                        {
-                            indexStartNumber = indexNumber * quotient;
-                            indexEndNumber = indexNumber * quotient + amari;
-                        }
-                        else if (indexNumber < whereAmari)
-                        {
-                            indexStartNumber = (indexNumber - 1) * quotient + amari;
-                            indexEndNumber = indexNumber * quotient + amari;
-                        }
+                        //indexNumberがamariの方が小さいとき。
+                        indexStartNumber = indexNumber * quotient;
+                        indexEndNumber = (indexNumber + 1) * quotient;
                     }
-                    indexNumber = indexStartNumber;
-                    while (indexNumber < indexEndNumber)
+                    else if (indexNumber == whereAmari)
                     {
-                        sorded[inNumber] = encrypted[indexNumber];
-                        indexNumber++;
+                        indexStartNumber = indexNumber * quotient;
+                        indexEndNumber = indexNumber * quotient + amari;
+                    }
+                    else if (indexNumber < whereAmari)
+                    {
+                        indexStartNumber = (indexNumber - 1) * quotient + amari;
+                        indexEndNumber = indexNumber * quotient + amari;
+                    }
+                    outNumber = indexStartNumber;
+                    while (outNumber < indexEndNumber)
+                    {
+                        sorded[inNumber] = encrypted[outNumber];
+                        outNumber++;
                         inNumber++;
                     }
                     Console.WriteLine(arreyNumber);
@@ -149,18 +142,12 @@ namespace Cypher
             }
             Console.WriteLine("The date was sorted.");
 
-            //sortedを一つに統合
-            writtens = string.Concat(sorded);
 
             //データを元の長さに整理
             //ファイルサイズが100以下の場合
             if (howLongDateInt < 100)
             {
-                dates = Encoding.GetEncoding("UTF-8").GetBytes(string.Concat(new ArraySegment<string>(written, 0, howLongDateInt)));
-            }
-            else
-            {
-                dates = Encoding.GetEncoding("UTF-8").GetBytes(writtens);
+                Array.Copy(sorded, 0, dates, 0, 100 - howLongDateInt);
             }
 
             //書きこ
