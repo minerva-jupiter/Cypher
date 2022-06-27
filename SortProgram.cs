@@ -14,8 +14,6 @@ namespace Cypher
 
             //変数宣言
             int[] order = new int[100];
-            string[] written = new string[100];
-            string writtens;
             int inNumber = 0;
 
             //質問
@@ -61,18 +59,19 @@ namespace Cypher
                 multipleJudgment = false;
             }
 
+            //ReadkeyFile
             ResdFiles resdFiles = new ResdFiles();
             order = resdFiles.ReadKeyFile(whereKeyFile);
 
-            //順番にデータを移行
+            //Read Encrypted File
             inNumber = 0;
-            //encrypted の読み込み
             FileStream fs = new FileStream(whereEncrypted, FileMode.Open);
             byte[] encrypted = new byte[fs.Length];
             fs.Read(encrypted, 0, encrypted.Length);
             fs.Close();
             Console.WriteLine("Encrypted date was readed");
 
+            //sort
             inNumber = 0;
             int arreyNumber = 0;
             int indexNumber = 0;
@@ -92,12 +91,12 @@ namespace Cypher
                     indexEndNumber = (indexNumber + 1) * quotient;
 
                     //参照して"written"に代入
-                    indexNumber = indexStartNumber;
+                    outNumber = indexStartNumber;
                     while (indexNumber < indexEndNumber)
                     {
-                        sorded[inNumber] = encrypted[indexNumber];
+                        sorded[inNumber] = encrypted[outNumber];
                         indexNumber++;
-                        inNumber++;
+                        outNumber++;
                     }
                     Console.WriteLine(arreyNumber);
                     arreyNumber++;
@@ -111,7 +110,7 @@ namespace Cypher
 
                 while (arreyNumber < 100)
                 {
-                    indexNumber = Array.IndexOf(order, arreyNumber);
+                    indexNumber = Array.IndexOf(order, arreyNumber); //inNumber 80
                     //indexNumberとamariの関係で場合分け
                     if (indexNumber < whereAmari)
                     {
@@ -124,7 +123,7 @@ namespace Cypher
                         indexStartNumber = indexNumber * quotient;
                         indexEndNumber = indexNumber * quotient + amari;
                     }
-                    else if (indexNumber < whereAmari)
+                    else
                     {
                         indexStartNumber = (indexNumber - 1) * quotient + amari;
                         indexEndNumber = indexNumber * quotient + amari;

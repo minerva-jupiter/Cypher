@@ -14,14 +14,11 @@ namespace Cypher
 
             //変数宣言
             int[] order = new int[100];
-            string written;
             string[] date = new string[100];
             int quotient; //商
             int amari = 0; //あまり
             int inNumber = 0; //入力データ番号
             int arrayNumber = 0; //配列番号
-            int chapter = 0;
-            int f = 0;
             byte[] eByte = new byte[1];
 
 
@@ -58,7 +55,6 @@ namespace Cypher
 
             byte[] encrypted = new byte[bs.Length];
 
-            //ここまでテスト完了
             int indexNumuber;
             int indexEnd;
             int indexStart;
@@ -88,7 +84,7 @@ namespace Cypher
                 amari = bs.Length - quotient * 99;
                 int where99 = Array.IndexOf(order, 99);
 
-                while (arrayNumber < 99)
+                while (arrayNumber < 100)
                 {
                     indexNumuber = Array.IndexOf(order, arrayNumber);
                     if (indexNumuber < where99)
@@ -98,8 +94,8 @@ namespace Cypher
                     }
                     else if (indexNumuber == where99)
                     {
-                        indexStart = where99 * quotient;
-                        indexEnd = (where99 + 1) * quotient;
+                        indexStart = indexNumuber * quotient;
+                        indexEnd = indexNumuber * quotient + amari;
                     }
                     else
                     {
@@ -115,15 +111,16 @@ namespace Cypher
                         outNumber++;
                         inNumber++;
                     }
+
                     arrayNumber++;
                 }
 
-                //書きこ
-                File.WriteAllBytes(whereEncryptedFile, encrypted);
-                Console.WriteLine("Encrypt was ended.");
-                Console.WriteLine("The date key is " + encrypted.Length + ".");
-                Console.WriteLine("You have to remember it!");
             }
+            //書きこ
+            File.WriteAllBytes(whereEncryptedFile, encrypted);
+            Console.WriteLine("Encrypt was ended.");
+            Console.WriteLine("The date key is " + encrypted.Length + ".");
+            Console.WriteLine("You have to remember it!");
         }
 
     }

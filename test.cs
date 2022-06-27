@@ -14,11 +14,6 @@ namespace Cypher
 
         }
 
-
-
-
-
-
         public void Writedate(byte[] date)
         {
             int inNumber = 0;
