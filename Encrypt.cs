@@ -59,19 +59,21 @@ namespace Cypher
             int indexEnd;
             int indexStart;
             int outNumber = 0;
+            inNumber = 0;
             if (bs.Length % 100 == 0)
             {
                 quotient = bs.Length / 100;
                 //百で割り切れる場合
                 while (arrayNumber < 100)
                 {
-                    indexNumuber = Array.IndexOf(order, arrayNumber);
+                    indexNumuber = order[arrayNumber];
                     indexStart = quotient * indexNumuber;
                     indexEnd = quotient * (indexNumuber + 1);
-                    inNumber = indexStart;
-                    while (inNumber < indexEnd)
+                    outNumber = indexStart;
+                    while (outNumber < indexEnd)
                     {
                         encrypted[outNumber] = bs[inNumber];
+                        inNumber++;
                         outNumber++;
                     }
                     arrayNumber++;
@@ -104,8 +106,8 @@ namespace Cypher
                     }
 
 
-                    inNumber = indexStart;
-                    while (inNumber < indexEnd)
+                    outNumber = indexStart;
+                    while (outNumber < indexEnd)
                     {
                         encrypted[outNumber] = bs[inNumber];
                         outNumber++;
@@ -118,6 +120,8 @@ namespace Cypher
             }
             //書きこ
             File.WriteAllBytes(whereEncryptedFile, encrypted);
+            Test test = new();
+            test.Writedate(encrypted);
             Console.WriteLine("Encrypt was ended.");
             Console.WriteLine("The date key is " + encrypted.Length + ".");
             Console.WriteLine("You have to remember it!");
