@@ -98,7 +98,6 @@ namespace Cypher
                         indexNumber++;
                         outNumber++;
                     }
-                    Console.WriteLine(arreyNumber);
                     arreyNumber++;
                 }
             }
@@ -135,7 +134,6 @@ namespace Cypher
                         outNumber++;
                         inNumber++;
                     }
-                    Console.WriteLine(arreyNumber);
                     arreyNumber++;
                 }
             }
@@ -147,6 +145,10 @@ namespace Cypher
             if (howLongDateInt < 100)
             {
                 Array.Copy(sorded, 0, dates, 0, 100 - howLongDateInt);
+            }
+            else
+            {
+                dates = sorded;
             }
 
             //書きこ
