@@ -120,8 +120,6 @@ namespace Cypher
             }
             //書きこ
             File.WriteAllBytes(whereEncryptedFile, encrypted);
-            Test test = new();
-            test.Writedate(encrypted);
             Console.WriteLine("Encrypt was ended.");
             Console.WriteLine("The date key is " + encrypted.Length + ".");
             Console.WriteLine("You have to remember it!");
