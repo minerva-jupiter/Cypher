@@ -25,6 +25,8 @@ namespace Cypher
             //質問
             string whereDateFile;
             string whereKeyFile;
+            string whereEncryptedFilefolder;
+            string whereEncryptedfileName;
             string whereEncryptedFile;
 
             /*
@@ -35,7 +37,9 @@ namespace Cypher
             */
 
             Question question = new Question();
-            whereEncryptedFile = question.Questions("Where will you create encrypted file?", false);
+            whereEncryptedFilefolder = question.Questions("Where will you create encrypted file? (folder Name)", false);
+            whereEncryptedfileName = question.Questions("What will you create encrypted file name?",false);
+            whereEncryptedFile = whereEncryptedFilefolder + whereEncryptedfileName + ".cypher";
             whereDateFile = question.Questions("Where is the file you want to encrypt?", true);
             whereKeyFile = question.Questions("Where is keyFile?", true);
             
