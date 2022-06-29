@@ -22,19 +22,20 @@ namespace Cypher
             string whereSortedFile;
             string howLongDate;
 
+            /*
             //自動テスト
             whereEncrypted = @"h:\encrypted.txt";
             whereKeyFile = @"h:\key.txt";
             whereSortedFile = @"h:\sorted.txt";
             howLongDate = "390";
-
-            /*
+            */
+            
             Question question = new Question();
             whereEncrypted = question.Questions("Where is encrypted file?",true);
             whereKeyFile = question.Questions("Where is KeyFile?",true);
             whereSortedFile = question.Questions("Where will you create sorted file?",false);
             howLongDate = question.Questions("How Long the date file?",false);
-            */
+            
             int howLongDateInt = int.Parse(howLongDate);
 
             //byteのデータを長さの数だけ用意

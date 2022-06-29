@@ -27,16 +27,18 @@ namespace Cypher
             string whereKeyFile;
             string whereEncryptedFile;
 
+            /*
             //自動テスト
             whereDateFile = @"h:\date.txt";
             whereEncryptedFile = @"h:\encrypted.txt";
             whereKeyFile = @"h:\key.txt";
-
-            /*
-            whereEncryptedFile = Question("Where will you create encrypted file?", false);
-            whereDateFile = Question("Where is the file you want to encrypt?", true);
-            whereKeyFile = Question("Where is keyFile?", true);
             */
+
+            Question question = new Question();
+            whereEncryptedFile = question.Questions("Where will you create encrypted file?", false);
+            whereDateFile = question.Questions("Where is the file you want to encrypt?", true);
+            whereKeyFile = question.Questions("Where is keyFile?", true);
+            
 
             //順序ファイルの読み込み
             StreamReader sr = new StreamReader(whereKeyFile);
