@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cypher", "Cypher.csproj", "{BA629338-C60A-4C00-95D7-7A6E7AE4A721}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cypher", "Cypher.csproj", "{BA629338-C60A-4C00-95D7-7A6E7AE4A721}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CypherInstaller", "..\CypherInstaller\CypherInstaller.vdproj", "{0BE56DEB-6C9D-4355-82F7-72D6B9BA25DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,8 @@ Global
 		{BA629338-C60A-4C00-95D7-7A6E7AE4A721}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA629338-C60A-4C00-95D7-7A6E7AE4A721}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA629338-C60A-4C00-95D7-7A6E7AE4A721}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BE56DEB-6C9D-4355-82F7-72D6B9BA25DC}.Debug|Any CPU.ActiveCfg = Debug
+		{0BE56DEB-6C9D-4355-82F7-72D6B9BA25DC}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

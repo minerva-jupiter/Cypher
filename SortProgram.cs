@@ -59,6 +59,8 @@ namespace Cypher
                 multipleJudgment = false;
             }
 
+
+
             //ReadkeyFile
             ResdFiles resdFiles = new ResdFiles();
             order = resdFiles.ReadKeyFile(whereKeyFile);
@@ -70,6 +72,15 @@ namespace Cypher
             fs.Read(encrypted, 0, encrypted.Length);
             fs.Close();
             Console.WriteLine("Encrypted date was readed");
+
+            //データサイズを知らないかどうかで判断
+            if(howLongDateInt != encrypted.Length && encrypted.Length != 100)
+            {
+                Console.WriteLine("You mistaken!");
+                Console.WriteLine("The date Number is wrong!");
+                Environment.Exit(0);
+            }
+
 
             //sort
             inNumber = 0;
