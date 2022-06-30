@@ -12,8 +12,7 @@ namespace Cypher
         public void test()
         {
 
-        
-    }
+        }
 
         public void Writedate(byte[] date)
         {

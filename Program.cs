@@ -23,7 +23,8 @@ static string Control()
 
     if(answer == "createKey")
     {
-        createKey();
+        Key key = new Key();
+        key.createKey();
     }
     else
     {
@@ -52,38 +53,4 @@ static string Control()
     return answer;
 }
 
-static void createKey()
-{
-    Question question = new Question();
-    string whereKeyFile = question.Questions("Where will you want to create the keyFile?",false);
-    //順序ファイルの生成
-    int random;
-    int count = 1;
-    int[] order = new int[100];
-    //百個数字が埋められるまで繰り返す。
-    while (count < 100)
-    {
-        var randomer = new Random();
-        random = randomer.Next(minValue: 0, maxValue: 100);
-
-        //今までにない数かどうかを評価
-        if (Array.IndexOf(order, random) < 0)
-        {
-            //生成した変数を"order"に代入
-            order[count] = random;
-            count++;
-            Console.WriteLine(random);
-        }
-    }
-
-    //keyFileに書き出し
-    StreamWriter streamWriter = new StreamWriter(whereKeyFile);
-    Console.WriteLine("Created StreamWriter");
-    for(count= 0; count < order.Length; count++)
-    {
-        streamWriter.WriteLine(order[count]);
-        Console.WriteLine(count + order[count]);
-    }
-    streamWriter.Close();
-}
 
