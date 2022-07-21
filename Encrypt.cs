@@ -38,6 +38,12 @@ namespace Cypher
 
             Question question = new Question();
             whereEncryptedFilefolder = question.Questions("Where will you create encrypted file? (folder Name)", false);
+            while (Directory.Exists(whereEncryptedFilefolder)==false)
+            {
+                Console.WriteLine("You selected not exis folder.");
+                Console.WriteLine("Let's try another folder!");
+                whereEncryptedFilefolder = question.Questions("Where will you create encrypted file? (folder Name)", false);
+            }
             whereEncryptedfileName = question.Questions("What will you create encrypted file name?",false);
             whereEncryptedFile = whereEncryptedFilefolder + whereEncryptedfileName + ".cypher";
             whereDateFile = question.Questions("Where is the file you want to encrypt?", true);
