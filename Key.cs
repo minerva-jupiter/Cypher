@@ -19,7 +19,7 @@ namespace Cypher
             order = GeneratKey();
 
             Console.WriteLine("Now genarating key...");
-            //相関係数が0.5より小さくなるまで鍵ファイルを生成し続ける。。
+            //相関係数が0.5より小さくなるまで鍵ファイルを生成し続ける。
             while (ComputeCoeff(order.ToArray(), ints.ToArray()) < 0.3)
             {
                 order = GeneratKey();
@@ -32,11 +32,9 @@ namespace Cypher
 
             //keyFileに書き出し
             StreamWriter streamWriter = new StreamWriter(whereKeyFile);
-            Console.WriteLine("Created StreamWriter");
             for (count = 0; count < order.Length; count++)
             {
                 streamWriter.WriteLine(order[count]);
-                Console.WriteLine(count + order[count]);
             }
             streamWriter.Close();
         }
