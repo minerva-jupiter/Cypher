@@ -5,9 +5,12 @@ using Cypher;
 
 string answers;
 Console.WriteLine("Hello world. I woke up.");
+
+
 do{
     answers = Control();
 }while (answers != "end") ;
+
 
 static string Control()
 {
@@ -21,7 +24,7 @@ static string Control()
         Console.WriteLine("sort is sorting the encrypted file with keyFile.");
     }
 
-    switch (Console.ReadLine())
+    switch (answer)
     {
         case "createKey":
             Key key = new Key();

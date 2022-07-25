@@ -11,7 +11,6 @@ namespace Cypher
     {
         public void Inspection()
         {
-            Console.WriteLine("End0");
             int countChecker=0;
             //鍵の読み込み
             Question question = new Question();
@@ -23,18 +22,19 @@ namespace Cypher
             int[] key2 = new int[key.Length];
             Key key1 = new Key();
 
-            Console.WriteLine("End1");
-            //鍵を作って言う
+            //鍵を作って比較
+            Console.WriteLine("Please wait a minuits");
+            Console.WriteLine("Starting the inspection...");
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
             key2Double = key1.GeneratKey();
             for(int i = 0; i < key2Double.Length; i++)
             {
                 key2[i] = Convert.ToInt32(key2Double[i]);
             }
             countChecker++;
-
-            Console.WriteLine("End2");
             //繰り返し
-            while (key==key2)
+            while (key!=key2)
             {
                 key2Double = key1.GeneratKey();
                 for (int i = 0; i < key2Double.Length; i++)
@@ -42,10 +42,10 @@ namespace Cypher
                     key2[i] = Convert.ToInt32(key2Double[i]);
                 }
                 countChecker++;
-
-                Console.WriteLine(countChecker);
             }
-            Console.WriteLine(countChecker);
+            sw.Stop();
+            Console.WriteLine("Number of verifications is " + countChecker);
+            Console.WriteLine("Time taken is " + sw.ElapsedMilliseconds);
         }
     }
 }
