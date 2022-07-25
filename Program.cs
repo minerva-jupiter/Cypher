@@ -21,34 +21,28 @@ static string Control()
         Console.WriteLine("sort is sorting the encrypted file with keyFile.");
     }
 
-    if(answer == "createKey")
+    switch (Console.ReadLine())
     {
-        Key key = new Key();
-        key.createKey();
-    }
-    else
-    {
-        if(answer == "encrypt")
-        {
+        case "createKey":
+            Key key = new Key();
+            key.createKey();
+            break;
+
+        case "encrypt":
             Encrypt encrypt = new Encrypt();
             encrypt.encrypt();
-        }
-        else
-        {
-            if(answer == "sort")
-            {
-                SortProgram sortProgram = new SortProgram();
-                sortProgram.sort();
-            }
-            else
-            {
-                if (answer == "test")
-                {
-                    Test test = new Test();
-                    test.test();
-                }
-            }
-        }
+            break;
+        case "sort":
+            SortProgram sortProgram = new SortProgram();
+            sortProgram.sort();
+            break;
+        case "test":
+            Test test = new Test();
+            test.test();
+            break;
+        default:
+            Console.WriteLine("Anything is false. Plese change the word or spell.");
+            break;
     }
     return answer;
 }
