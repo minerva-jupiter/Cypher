@@ -21,7 +21,7 @@ static string Control()
         Console.WriteLine("sort is sorting the encrypted file with keyFile.");
     }
 
-    switch (Console.ReadLine())
+    switch (answer)
     {
         case "createKey":
             Key key = new Key();
