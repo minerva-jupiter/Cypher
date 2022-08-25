@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,17 +39,17 @@ namespace Cypher
 
             Question question = new Question();
             whereEncryptedFilefolder = question.Questions("Where will you create encrypted file? (folder Name)", false);
-            while (Directory.Exists(whereEncryptedFilefolder)==false)
+            while (Directory.Exists(whereEncryptedFilefolder) == false)
             {
                 Console.WriteLine("You selected not exis folder.");
                 Console.WriteLine("Let's try another folder!");
                 whereEncryptedFilefolder = question.Questions("Where will you create encrypted file? (folder Name)", false);
             }
-            whereEncryptedfileName = question.Questions("What will you create encrypted file name?",false);
-            whereEncryptedFile = whereEncryptedFilefolder + whereEncryptedfileName + ".cypher";
+            whereEncryptedfileName = question.Questions("What will you create encrypted file name?", false);
+            whereEncryptedFile = whereEncryptedFilefolder + whereEncryptedfileName;
             whereDateFile = question.Questions("Where is the file you want to encrypt?", true);
             whereKeyFile = question.Questions("Where is keyFile?", true);
-            
+
 
             //順序ファイルの読み込み
             StreamReader sr = new StreamReader(whereKeyFile);
@@ -130,8 +131,27 @@ namespace Cypher
                 }
 
             }
+            //ハッシュ関数で元のファイルおよび、ファイル固有値をハッシュ化
+            SHA512 shaM = new SHA512Managed(); //インスタンス
+            //元のファイルにハッシュをかける
+            //元データ:bs ハッシュ後:hashdate
+            byte[] hashdate;
+            hashdate = shaM.ComputeHash(bs);
+            //元データ:encrypted.Length ハッシュ後:hashlength
+            byte[] Encryptlength;
+            Encryptlength = BitConverter.GetBytes(encrypted.Length);
+            byte[] hashLength;
+            hashLength = shaM.ComputeHash(Encryptlength);
+
+            //フォルダを作成
+            Directory.CreateDirectory(whereEncryptedFile);
+
+            //ハッシュ値を別ファイルに保存する
+            File.WriteAllBytes(whereEncryptedFile + @"\" + "Date", hashdate);
+            File.WriteAllBytes(whereEncryptedFile + @"\" + "Number", hashLength);
+
             //書きこ
-            File.WriteAllBytes(whereEncryptedFile, encrypted);
+            File.WriteAllBytes(whereEncryptedFile + @"\" + "Encrypted", encrypted);
             Console.WriteLine("Encrypt was ended.");
             Console.WriteLine("The date key is " + encrypted.Length + ".");
             Console.WriteLine("You have to remember it!");
