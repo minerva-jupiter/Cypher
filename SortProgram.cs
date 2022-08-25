@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,6 +17,8 @@ namespace Cypher
             int[] order = new int[100];
             int inNumber = 0;
 
+            SHA512 shaM = new SHA512Managed(); //インスタンス
+
             //質問
             string whereEncrypted;
             string whereKeyFile;
@@ -29,14 +32,35 @@ namespace Cypher
             whereSortedFile = @"h:\sorted.txt";
             howLongDate = "390";
             */
-            
+
             Question question = new Question();
-            whereEncrypted = question.Questions("Where is encrypted file?",true);
-            whereKeyFile = question.Questions("Where is KeyFile?",true);
-            whereSortedFile = question.Questions("Where will you create sorted file?",false);
-            howLongDate = question.Questions("How Long the date file?",false);
-            
+            whereEncrypted = question.Questions("Where is encrypted file?", false);
+            while (Directory.Exists(whereEncrypted) == false)
+            {
+                Console.WriteLine("The folder not exists.");
+                Console.WriteLine("Plese try another folder.");
+            }
+            whereKeyFile = question.Questions("Where is KeyFile?", true);
+            whereSortedFile = question.Questions("Where will you create sorted file?", false);
+            howLongDate = question.Questions("How Long the date file?", false);
+
             int howLongDateInt = int.Parse(howLongDate);
+
+            //ハッシュ関数を用いてデータサイズを知らないかどうかで判断
+            //元のハッシュ値を持ってくる
+            byte[] hashOriginal = File.ReadAllBytes(whereEncrypted + @"\" + "Number");
+            byte[] hashNumber;
+            byte[] LengthByte = BitConverter.GetBytes(howLongDateInt);
+            hashNumber = shaM.ComputeHash(LengthByte);
+
+            if (BitConverter.ToInt32(hashOriginal) != BitConverter.ToInt32(hashNumber))
+            {
+                Console.WriteLine("You mistaken!");
+                Console.WriteLine("The date Number is wrong!");
+                Console.WriteLine("This program will stop by 10seconds.");
+                Thread.Sleep(10000);
+                Environment.Exit(0);
+            }
 
             //byteのデータを長さの数だけ用意
             byte[] dates = new byte[howLongDateInt];
@@ -60,27 +84,19 @@ namespace Cypher
                 multipleJudgment = false;
             }
 
-
-
             //ReadkeyFile
             ResdFiles resdFiles = new ResdFiles();
             order = resdFiles.ReadKeyFile(whereKeyFile);
 
             //Read Encrypted File
             inNumber = 0;
-            FileStream fs = new FileStream(whereEncrypted, FileMode.Open);
+            FileStream fs = new FileStream(whereEncrypted + @"\" + "Encrypted", FileMode.Open);
             byte[] encrypted = new byte[fs.Length];
             fs.Read(encrypted, 0, encrypted.Length);
             fs.Close();
             Console.WriteLine("Encrypted date was readed");
 
-            //データサイズを知らないかどうかで判断
-            if(howLongDateInt != encrypted.Length && encrypted.Length != 100)
-            {
-                Console.WriteLine("You mistaken!");
-                Console.WriteLine("The date Number is wrong!");
-                Environment.Exit(0);
-            }
+
 
 
             //sort
@@ -163,8 +179,21 @@ namespace Cypher
                 dates = sorded;
             }
 
-            //書きこ
-            File.WriteAllBytes(whereSortedFile, dates);
+            //元のデータのハッシュと突き合わせ
+            byte[] hashdate;
+            hashdate = shaM.ComputeHash(dates);
+            byte[] hashOriginalDate;
+            hashOriginalDate = File.ReadAllBytes(whereEncrypted + @"\" + "Date");
+            if (BitConverter.ToInt32(hashdate) != BitConverter.ToInt32(hashOriginalDate))
+            {
+                Console.WriteLine("The sorted file was not Original File.");
+                Console.WriteLine("Something wrong. ex,key.");
+            }
+            else
+            {
+                //あっていたら、書きこみ。
+                File.WriteAllBytes(whereSortedFile, dates);
+            }
 
         }
     }
