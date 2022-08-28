@@ -52,7 +52,15 @@ namespace Cypher
 
 
             //順序ファイルの読み込み
-            StreamReader sr = new StreamReader(whereKeyFile);
+            try
+            {
+                StreamReader sr = new StreamReader(whereKeyFile);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + "was occurd");
+            }
+
 
 
             //配列に順序を書き込み
