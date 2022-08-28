@@ -85,8 +85,16 @@ namespace Cypher
             }
 
             //ReadkeyFile
-            ResdFiles resdFiles = new ResdFiles();
-            order = resdFiles.ReadKeyFile(whereKeyFile);
+            try
+            {
+                ResdFiles resdFiles = new ResdFiles();
+                order = resdFiles.ReadKeyFile(whereKeyFile);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + "was occurd");
+            }
+
 
             //Read Encrypted File
             inNumber = 0;
