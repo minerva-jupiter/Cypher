@@ -58,7 +58,10 @@ namespace Cypher
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message + "was occurd");
+                Console.WriteLine(e + "was happend.");
+                Console.WriteLine("try again.");
+                Task.Delay(10000);
+                Environment.Exit(0);
             }
 
 
@@ -155,8 +158,19 @@ namespace Cypher
             Directory.CreateDirectory(whereEncryptedFile);
 
             //ハッシュ値を別ファイルに保存する
-            File.WriteAllBytes(whereEncryptedFile + @"\" + "Date", hashdate);
-            File.WriteAllBytes(whereEncryptedFile + @"\" + "Number", hashLength);
+            try
+            {
+                File.WriteAllBytes(whereEncryptedFile + @"\" + "Date", hashdate);
+                File.WriteAllBytes(whereEncryptedFile + @"\" + "Number", hashLength);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e + "was happend.");
+                Console.WriteLine("try again.");
+                Task.Delay(10000);
+                Environment.Exit(0);
+            }
+            
 
             //書きこ
             File.WriteAllBytes(whereEncryptedFile + @"\" + "Encrypted", encrypted);

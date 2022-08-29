@@ -24,6 +24,8 @@ We hope it will be one of the Post-Quantum Cryptography.
 	→You have to answer the folder fullPath with encrypted file's extension.
 		ex.If you encrypted C:\Users\minerva\Document\data.txt, you have to type "anywhere you want + filename you want + .txt"
 
+・tipe "end" to end this program.
+
 *****warning*****
 You have to answer 'fullPath' apart from encrypted file's folderName.
 

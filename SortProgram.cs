@@ -92,7 +92,10 @@ namespace Cypher
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message + "was occurd");
+                Console.WriteLine(e + "was happend.");
+                Console.WriteLine("try again.");
+                Task.Delay(10000);
+                Environment.Exit(0);
             }
 
 
@@ -100,10 +103,19 @@ namespace Cypher
             inNumber = 0;
             FileStream fs = new FileStream(whereEncrypted + @"\" + "Encrypted", FileMode.Open);
             byte[] encrypted = new byte[fs.Length];
-            fs.Read(encrypted, 0, encrypted.Length);
-            fs.Close();
+            try
+            {
+                fs.Read(encrypted, 0, encrypted.Length);
+                fs.Close();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e + "was happend.");
+                Console.WriteLine("try again.");
+                Task.Delay(10000);
+                Environment.Exit(0);
+            }
             Console.WriteLine("Encrypted date was readed");
-
 
 
 
