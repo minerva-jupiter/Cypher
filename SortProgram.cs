@@ -48,7 +48,7 @@ namespace Cypher
 
             //ハッシュ関数を用いてデータサイズを知らないかどうかで判断
             //元のハッシュ値を持ってくる
-            byte[] hashOriginal = File.ReadAllBytes(whereEncrypted + @"\" + "Number");
+            byte[] hashOriginal = File.ReadAllBytes(whereEncrypted + @"\" + "Number.cypherN");
             byte[] hashNumber;
             byte[] LengthByte = BitConverter.GetBytes(howLongDateInt);
             hashNumber = shaM.ComputeHash(LengthByte);
@@ -101,7 +101,7 @@ namespace Cypher
 
             //Read Encrypted File
             inNumber = 0;
-            FileStream fs = new FileStream(whereEncrypted + @"\" + "Encrypted", FileMode.Open);
+            FileStream fs = new FileStream(whereEncrypted + @"\" + "Encrypted.cypher", FileMode.Open);
             byte[] encrypted = new byte[fs.Length];
             try
             {

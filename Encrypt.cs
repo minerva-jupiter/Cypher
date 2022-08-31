@@ -160,8 +160,8 @@ namespace Cypher
             //ハッシュ値を別ファイルに保存する
             try
             {
-                File.WriteAllBytes(whereEncryptedFile + @"\" + "Date", hashdate);
-                File.WriteAllBytes(whereEncryptedFile + @"\" + "Number", hashLength);
+                File.WriteAllBytes(whereEncryptedFile + @"\" + "Date.cypherD", hashdate);
+                File.WriteAllBytes(whereEncryptedFile + @"\" + "Number.cypherN", hashLength);
             }
             catch(Exception e)
             {
@@ -173,7 +173,17 @@ namespace Cypher
             
 
             //書きこ
-            File.WriteAllBytes(whereEncryptedFile + @"\" + "Encrypted", encrypted);
+
+            try
+            {
+                File.WriteAllBytes(whereEncryptedFile + @"\" + "Encrypted.cypher", encrypted);
+            }catch(Exception e)
+            {
+                Console.WriteLine(e + "was happend.");
+                Console.WriteLine("try again.");
+                Task.Delay(10000);
+                Environment.Exit(0);
+            }
             Console.WriteLine("Encrypt was ended.");
             Console.WriteLine("The date key is " + encrypted.Length + ".");
             Console.WriteLine("You have to remember it!");
