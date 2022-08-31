@@ -203,7 +203,7 @@ namespace Cypher
             byte[] hashdate;
             hashdate = shaM.ComputeHash(dates);
             byte[] hashOriginalDate;
-            hashOriginalDate = File.ReadAllBytes(whereEncrypted + @"\" + "Date");
+            hashOriginalDate = File.ReadAllBytes(whereEncrypted + @"\" + "Date.cypherD");
             if (BitConverter.ToInt32(hashdate) != BitConverter.ToInt32(hashOriginalDate))
             {
                 Console.WriteLine("The sorted file was not Original File.");
