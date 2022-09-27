@@ -10,22 +10,25 @@ namespace Cypher
     {
         public void createKey()
         {
-            double[] ints = new double[100];
-            for(int i = 0; i < 100; i++)
+            int count;
+            double[] ints = new double[1000];
+            for(int i = 0; i < 1000; i++)
             {
                 ints[i] = i;
             }
-            double[] order = new double[100];
+            double[] order = new double[1000];
             order = GeneratKey();
 
             Console.WriteLine("Now genarating key...");
             //相関係数が0.5より小さくなるまで鍵ファイルを生成し続ける。
-            while (ComputeCoeff(order.ToArray(), ints.ToArray()) < 0.3)
+            count = 0;
+            while (ComputeCoeff(order.ToArray(), ints.ToArray()) > 0.9)
             {
                 order = GeneratKey();
+                count++;
+                Console.WriteLine(count);
             }
 
-            int count = 1;
             Question question = new Question();
             string whereKeyFile = question.Questions("Where will you want to create the keyFile?", false);
 
@@ -45,12 +48,12 @@ namespace Cypher
             //順序ファイルの生成
             int random;
             int count = 1;
-            double[] order = new double[100];
-            //百個数字が埋められるまで繰り返す。
-            while (count < 100)
+            double[] order = new double[1000];
+            //1000個数字が埋められるまで繰り返す。
+            while (count < 1000)
             {
                 var randomer = new Random();
-                random = randomer.Next(minValue: 0, maxValue: 100);
+                random = randomer.Next(minValue: 0, maxValue: 1000);
 
                 //今までにない数かどうかを評価
                 if (Array.IndexOf(order, random) < 0)

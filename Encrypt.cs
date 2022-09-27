@@ -14,8 +14,8 @@ namespace Cypher
             //暗号化
 
             //変数宣言
-            int[] order = new int[100];
-            string[] date = new string[100];
+            int[] order = new int[1000];
+            string[] date = new string[1000];
             int quotient; //商
             int amari = 0; //あまり
             int inNumber = 0; //入力データ番号
@@ -84,11 +84,11 @@ namespace Cypher
             int indexStart;
             int outNumber = 0;
             inNumber = 0;
-            if (bs.Length % 100 == 0)
+            if (bs.Length % 1000 == 0)
             {
-                quotient = bs.Length / 100;
+                quotient = bs.Length / 1000;
                 //百で割り切れる場合
-                while (arrayNumber < 100)
+                while (arrayNumber < 1000)
                 {
                     indexNumuber = order[arrayNumber];
                     indexStart = quotient * indexNumuber;
@@ -106,19 +106,19 @@ namespace Cypher
             else
             {
                 //割り切れない場合
-                quotient = bs.Length / 99;
-                amari = bs.Length - quotient * 99;
-                int where99 = Array.IndexOf(order, 99);
+                quotient = bs.Length / 999;
+                amari = bs.Length - quotient * 999;
+                int where999 = Array.IndexOf(order, 999);
 
-                while (arrayNumber < 100)
+                while (arrayNumber < 1000)
                 {
                     indexNumuber = Array.IndexOf(order, arrayNumber);
-                    if (indexNumuber < where99)
+                    if (indexNumuber < where999)
                     {
                         indexStart = quotient * indexNumuber;
                         indexEnd = quotient * (indexNumuber + 1);
                     }
-                    else if (indexNumuber == where99)
+                    else if (indexNumuber == where999)
                     {
                         indexStart = indexNumuber * quotient;
                         indexEnd = indexNumuber * quotient + amari;

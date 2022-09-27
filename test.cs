@@ -28,7 +28,7 @@ namespace Cypher
         {
             Question question = new Question();
             string whereCreateDateFile = question.Questions("where do you want to create test date file?", false);
-            int[] date = new int[100];
+            int[] date = new int[1000];
             for (int i = 0; i < date.Length; i++)
             {
                 date[i] = i;

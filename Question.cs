@@ -14,7 +14,7 @@ namespace Cypher
             string answer = Console.ReadLine();
             if (exsis)
             {
-                while (answer == null | File.Exists(answer) == false)
+                while (answer != null && File.Exists(answer) == false)
                 {
                     Console.WriteLine("You have not typed anything or you are specifying a file that does not exist");
                     answer = Console.ReadLine();

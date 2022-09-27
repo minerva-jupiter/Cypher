@@ -38,7 +38,7 @@ namespace Cypher
             //復号プログラム
 
             //変数宣言
-            double[] order = new double[100];
+            double[] order = new double[1000];
             int inNumber = 0;
             SHA512 shaM = new SHA512Managed(); //インスタンス
 
@@ -93,17 +93,17 @@ namespace Cypher
             int amari;
             bool multipleJudgment;
             //データサイズに適した数ずつ引っこ抜く
-            if (howLongDateInt % 100 == 0)
+            if (howLongDateInt % 1000 == 0)
             {
-                quotient = howLongDateInt / 100;
-                amari = howLongDateInt % 100;
+                quotient = howLongDateInt / 1000;
+                amari = howLongDateInt % 1000;
                 multipleJudgment = true;
             }
             else
             {
-                //100で割り切れない場合は、99で割って、その余りをすべてamariにぶち込む
-                quotient = howLongDateInt / 99;
-                amari = howLongDateInt - quotient * 99;
+                //1000で割り切れない場合は、999で割って、その余りをすべてamariにぶち込む
+                quotient = howLongDateInt / 999;
+                amari = howLongDateInt - quotient * 999;
                 multipleJudgment = false;
             }
 
@@ -130,8 +130,8 @@ namespace Cypher
             int outNumber = 0;
             if (multipleJudgment)
             {
-                //100で割り切れないとき
-                while (arreyNumber < 100)
+                //1000で割り切れないとき
+                while (arreyNumber < 1000)
                 {
                     //参照すべき番号を検索
                     indexNumber = Array.IndexOf(order, arreyNumber);
@@ -153,11 +153,11 @@ namespace Cypher
             }
             else
             {
-                //100で割り切れない数の場合
+                //1000で割り切れない数の場合
                 //余りの位置を特定
-                int whereAmari = Array.IndexOf(order, 99);
+                int whereAmari = Array.IndexOf(order, 999);
 
-                while (arreyNumber < 100)
+                while (arreyNumber < 1000)
                 {
                     indexNumber = Array.IndexOf(order, arreyNumber); //inNumber 80
                                                                      //indexNumberとamariの関係で場合分け
@@ -190,10 +190,10 @@ namespace Cypher
 
 
             //データを元の長さに整理
-            //ファイルサイズが100以下の場合
-            if (howLongDateInt < 100)
+            //ファイルサイズが1000以下の場合
+            if (howLongDateInt < 1000)
             {
-                Array.Copy(sorded, 0, dates, 0, 100 - howLongDateInt);
+                Array.Copy(sorded, 0, dates, 0, 1000 - howLongDateInt);
             }
             else
             {
@@ -221,7 +221,7 @@ namespace Cypher
                     //復号プログラム
 
                     //変数宣言
-                    double[] order = new double[100];
+                    double[] order = new double[1000];
                     int inNumber = 0;
                     SHA512 shaM = new SHA512Managed(); //インスタンス
 
@@ -276,17 +276,17 @@ namespace Cypher
                     int amari;
                     bool multipleJudgment;
                     //データサイズに適した数ずつ引っこ抜く
-                    if (howLongDateInt % 100 == 0)
+                    if (howLongDateInt % 1000 == 0)
                     {
-                        quotient = howLongDateInt / 100;
-                        amari = howLongDateInt % 100;
+                        quotient = howLongDateInt / 1000;
+                        amari = howLongDateInt % 1000;
                         multipleJudgment = true;
                     }
                     else
                     {
-                        //100で割り切れない場合は、99で割って、その余りをすべてamariにぶち込む
-                        quotient = howLongDateInt / 99;
-                        amari = howLongDateInt - quotient * 99;
+                        //1000で割り切れない場合は、999で割って、その余りをすべてamariにぶち込む
+                        quotient = howLongDateInt / 999;
+                        amari = howLongDateInt - quotient * 999;
                         multipleJudgment = false;
                     }
 
@@ -308,8 +308,8 @@ namespace Cypher
                     int outNumber = 0;
                     if (multipleJudgment)
                     {
-                        //100で割り切れないとき
-                        while (arreyNumber < 100)
+                        //1000で割り切れないとき
+                        while (arreyNumber < 1000)
                         {
                             //参照すべき番号を検索
                             indexNumber = Array.IndexOf(order, arreyNumber);
@@ -331,11 +331,11 @@ namespace Cypher
                     }
                     else
                     {
-                        //100で割り切れない数の場合
+                        //1000で割り切れない数の場合
                         //余りの位置を特定
-                        int whereAmari = Array.IndexOf(order, 99);
+                        int whereAmari = Array.IndexOf(order, 999);
 
-                        while (arreyNumber < 100)
+                        while (arreyNumber < 1000)
                         {
                             indexNumber = Array.IndexOf(order, arreyNumber); //inNumber 80
                                                                              //indexNumberとamariの関係で場合分け
@@ -368,10 +368,10 @@ namespace Cypher
 
 
                     //データを元の長さに整理
-                    //ファイルサイズが100以下の場合
-                    if (howLongDateInt < 100)
+                    //ファイルサイズが1000以下の場合
+                    if (howLongDateInt < 1000)
                     {
-                        Array.Copy(sorded, 0, dates, 0, 100 - howLongDateInt);
+                        Array.Copy(sorded, 0, dates, 0, 1000 - howLongDateInt);
                     }
                     else
                     {
