@@ -22,7 +22,7 @@ namespace Cypher
             Console.WriteLine("Now genarating key...");
             //相関係数が0.5より小さくなるまで鍵ファイルを生成し続ける。
             count = 0;
-            while (ComputeCoeff(order.ToArray(), ints.ToArray()) > 0.9)
+            while (ComputeCoeff(order.ToArray(), ints.ToArray()) > 0.5)
             {
                 order = GeneratKey();
                 count++;
