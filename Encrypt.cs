@@ -42,7 +42,7 @@ namespace Cypher
             while (Directory.Exists(whereEncryptedFilefolder) == false)
             {
                 Console.WriteLine("You selected not exis folder.");
-                Console.WriteLine("Let's try another folder!");
+                Console.WriteLine("Please try another folder.");
                 whereEncryptedFilefolder = question.Questions("Where will you create encrypted file? (folder Name)", false);
             }
             whereEncryptedfileName = question.Questions("What will you create encrypted file name?", false);
@@ -59,7 +59,7 @@ namespace Cypher
             catch (Exception e)
             {
                 Console.WriteLine(e + "was happend.");
-                Console.WriteLine("try again.");
+                Console.WriteLine("Please try again.");
                 Task.Delay(10000);
                 Environment.Exit(0);
             }
@@ -172,7 +172,7 @@ namespace Cypher
             }
             
 
-            //書きこ
+            //書きこみ
 
             try
             {
